@@ -1,0 +1,1628 @@
+[Thd 6196 CPU 0 7/13/20 17:25:22.213] Error: Missing probe specifier {-prb_3A or -prb=???}.
+[Thd 6196 CPU 1 7/13/20 17:25:22.214] 
+[Thd 6196 CPU 1 7/13/20 17:25:22.214] *** ERROR: MISSING CRITICAL PARAMETERS ***
+
+[Thd 6196 CPU 1 7/13/20 17:25:22.214] ------------------------
+[Thd 6196 CPU 0 7/13/20 17:25:22.215] Purpose:
+[Thd 6196 CPU 0 7/13/20 17:25:22.215] + Optionally join trials with given run_name and g-index in t-index range [ta,tb]...
+[Thd 6196 CPU 0 7/13/20 17:25:22.215] + ...Or run on any individual file.
+[Thd 6196 CPU 0 7/13/20 17:25:22.216] + Optionally apply bandpass and global demux CAR filters.
+[Thd 6196 CPU 0 7/13/20 17:25:22.216] + Optionally edit out saturation artifacts.
+[Thd 6196 CPU 0 7/13/20 17:25:22.217] + Optionally extract tables of sync waveform edge times to drive TPrime.
+[Thd 6196 CPU 0 7/13/20 17:25:22.217] + Optionally extract tables of any other TTL event times to be aligned with spikes.
+
+[Thd 6196 CPU 0 7/13/20 17:25:22.217] Output:
+[Thd 6196 CPU 0 7/13/20 17:25:22.218] + Results are placed next to source, named like this, with t-index = tcat:
+[Thd 6196 CPU 0 7/13/20 17:25:22.218] +    path/run_name_g5_tcat.imec1.ap.bin.
+[Thd 6196 CPU 0 7/13/20 17:25:22.218] + Errors and run messages are appended to CatGT.log in the app folder.
+
+[Thd 6196 CPU 0 7/13/20 17:25:22.219] Usage:
+[Thd 6196 CPU 0 7/13/20 17:25:22.219] >CatGT -dir=data_dir -run=run_name -g=g -t=ta,tb <which streams> [ options ]
+
+[Thd 6196 CPU 0 7/13/20 17:25:22.219] Which streams:
+[Thd 6196 CPU 0 7/13/20 17:25:22.220] -ap                  ;required to process ap streams
+[Thd 6196 CPU 0 7/13/20 17:25:22.220] -lf                  ;required to process lf streams
+[Thd 6196 CPU 0 7/13/20 17:25:22.220] -ni                  ;required to process ni stream
+[Thd 6196 CPU 0 7/13/20 17:25:22.221] -prb_3A              ;if -ap or -lf process 3A-style probe files, e.g. run_name_g0_t0.imec.ap.bin
+[Thd 6196 CPU 0 7/13/20 17:25:22.221] -prb=0,3:5           ;if -ap or -lf AND !prb_3A process these probes
+
+[Thd 6196 CPU 0 7/13/20 17:25:22.221] Options:
+[Thd 6196 CPU 0 7/13/20 17:25:22.222] -no_run_fld          ;older data generated before run folders were automatic
+[Thd 6196 CPU 0 7/13/20 17:25:22.222] -prb_fld             ;use folder-per-probe organization
+[Thd 6196 CPU 0 7/13/20 17:25:22.222] -prb_miss_ok         ;instead of stopping, silently skip missing probes
+[Thd 6196 CPU 0 7/13/20 17:25:22.222] -t=cat               ;extract TTL from CatGT output files (instead of -t=ta,tb)
+[Thd 6196 CPU 0 7/13/20 17:25:22.223] -exported            ;apply FileViewer 'exported' tag to in/output filenames
+[Thd 6196 CPU 0 7/13/20 17:25:22.223] -t_miss_ok           ;instead of stopping, zero-fill if trial missing
+[Thd 6196 CPU 0 7/13/20 17:25:22.223] -aphipass=300        ;apply ap high pass filter (float Hz)
+[Thd 6196 CPU 0 7/13/20 17:25:22.224] -aplopass=9000       ;apply ap low  pass filter (float Hz)
+[Thd 6196 CPU 0 7/13/20 17:25:22.224] -lfhipass=0.1        ;apply lf high pass filter (float Hz)
+[Thd 6196 CPU 0 7/13/20 17:25:22.224] -lflopass=1000       ;apply lf low  pass filter (float Hz)
+[Thd 6196 CPU 0 7/13/20 17:25:22.224] -loccar=2,8          ;apply ap local CAR annulus (exclude radius,include radius)
+[Thd 6196 CPU 0 7/13/20 17:25:22.225] -gbldmx              ;apply ap global demux filter
+[Thd 6196 CPU 0 7/13/20 17:25:22.225] -gfix=0.40,0.10,0.02 ;rmv ap artifacts: ||amp(mV)||, ||slope(mV/sample)||, ||noise(mV)||
+[Thd 6196 CPU 0 7/13/20 17:25:22.225] -chnexcl=0,3:5       ;exclude these acq chans from ap loccar, gbldmx and gfix
+[Thd 6196 CPU 0 7/13/20 17:25:22.226] -SY=0,384,6,10       ;extract TTL signal from imec SY (probe,word,bit,millisec)
+[Thd 6196 CPU 0 7/13/20 17:25:22.226] -XA=2,3.0,0.08,25    ;extract TTL signal from nidq XA (word,thresh(v),min(V),millisec)
+[Thd 6196 CPU 0 7/13/20 17:25:22.226] -XD=8,0,0            ;extract TTL signal from nidq xD (word,bit,millisec)
+[Thd 6196 CPU 0 7/13/20 17:25:22.227] -dest=path           ;alternate path for output files (must exist)
+[Thd 6196 CPU 0 7/13/20 17:25:22.227] -out_prb_fld         ;if using -dest, create output subfolder per probe
+[Thd 6196 CPU 0 7/13/20 17:25:22.227] ------------------------
+
+[Thd 976 CPU 7 7/13/20 17:26:07.359] Cmdline: CatGT -dir=D:/SGL_DATA -run=myRun_analyze -g=0 -t=0,0 -prb_fld -prb=0 -ap -ni -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -XA=0,1,0,200 -XA=1,0.25,0,0 -XA=3,1,0,200 -XD=5,0,500 -XD=5,1,1 -XD=5,2,0 -XD=5,2,0 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 976 CPU 7 7/13/20 17:28:03.665] Done ap prb 0 t 0
+[Thd 976 CPU 7 7/13/20 17:28:03.701] 
+[Thd 6408 CPU 5 8/27/20 19:44:08.602] Error: Missing stream indicator {-ap, -lf, -ni}.
+[Thd 6408 CPU 0 8/27/20 19:44:08.609] 
+[Thd 6408 CPU 0 8/27/20 19:44:08.609] *** ERROR: MISSING CRITICAL PARAMETERS ***
+
+[Thd 6408 CPU 0 8/27/20 19:44:08.609] ------------------------
+[Thd 6408 CPU 0 8/27/20 19:44:08.610] Purpose:
+[Thd 6408 CPU 0 8/27/20 19:44:08.610] + Optionally join trials with given run_name and g-index in t-index range [ta,tb]...
+[Thd 6408 CPU 0 8/27/20 19:44:08.610] + ...Or run on any individual file.
+[Thd 6408 CPU 0 8/27/20 19:44:08.610] + Optionally apply bandpass and global demux CAR filters.
+[Thd 6408 CPU 0 8/27/20 19:44:08.611] + Optionally edit out saturation artifacts.
+[Thd 6408 CPU 0 8/27/20 19:44:08.611] + Optionally extract tables of sync waveform edge times to drive TPrime.
+[Thd 6408 CPU 0 8/27/20 19:44:08.611] + Optionally extract tables of any other TTL event times to be aligned with spikes.
+
+[Thd 6408 CPU 0 8/27/20 19:44:08.612] Output:
+[Thd 6408 CPU 0 8/27/20 19:44:08.612] + Results are placed next to source, named like this, with t-index = tcat:
+[Thd 6408 CPU 0 8/27/20 19:44:08.612] +    path/run_name_g5_tcat.imec1.ap.bin.
+[Thd 6408 CPU 0 8/27/20 19:44:08.612] + Errors and run messages are appended to CatGT.log in the app folder.
+
+[Thd 6408 CPU 0 8/27/20 19:44:08.613] Usage:
+[Thd 6408 CPU 0 8/27/20 19:44:08.613] >CatGT -dir=data_dir -run=run_name -g=g -t=ta,tb <which streams> [ options ]
+
+[Thd 6408 CPU 0 8/27/20 19:44:08.613] Which streams:
+[Thd 6408 CPU 0 8/27/20 19:44:08.614] -ap                  ;required to process ap streams
+[Thd 6408 CPU 0 8/27/20 19:44:08.614] -lf                  ;required to process lf streams
+[Thd 6408 CPU 0 8/27/20 19:44:08.614] -ni                  ;required to process ni stream
+[Thd 6408 CPU 0 8/27/20 19:44:08.614] -prb_3A              ;if -ap or -lf process 3A-style probe files, e.g. run_name_g0_t0.imec.ap.bin
+[Thd 6408 CPU 0 8/27/20 19:44:08.615] -prb=0,3:5           ;if -ap or -lf AND !prb_3A process these probes
+
+[Thd 6408 CPU 0 8/27/20 19:44:08.615] Options:
+[Thd 6408 CPU 0 8/27/20 19:44:08.615] -no_run_fld          ;older data generated before run folders were automatic
+[Thd 6408 CPU 4 8/27/20 19:44:08.616] -prb_fld             ;use folder-per-probe organization
+[Thd 6408 CPU 4 8/27/20 19:44:08.616] -prb_miss_ok         ;instead of stopping, silently skip missing probes
+[Thd 6408 CPU 4 8/27/20 19:44:08.616] -t=cat               ;extract TTL from CatGT output files (instead of -t=ta,tb)
+[Thd 6408 CPU 4 8/27/20 19:44:08.617] -exported            ;apply FileViewer 'exported' tag to in/output filenames
+[Thd 6408 CPU 4 8/27/20 19:44:08.617] -t_miss_ok           ;instead of stopping, zero-fill if trial missing
+[Thd 6408 CPU 4 8/27/20 19:44:08.617] -aphipass=300        ;apply ap high pass filter (float Hz)
+[Thd 6408 CPU 4 8/27/20 19:44:08.617] -aplopass=9000       ;apply ap low  pass filter (float Hz)
+[Thd 6408 CPU 4 8/27/20 19:44:08.618] -lfhipass=0.1        ;apply lf high pass filter (float Hz)
+[Thd 6408 CPU 4 8/27/20 19:44:08.618] -lflopass=1000       ;apply lf low  pass filter (float Hz)
+[Thd 6408 CPU 4 8/27/20 19:44:08.618] -loccar=2,8          ;apply ap local CAR annulus (exclude radius,include radius)
+[Thd 6408 CPU 4 8/27/20 19:44:08.619] -gbldmx              ;apply ap global demux filter
+[Thd 6408 CPU 4 8/27/20 19:44:08.619] -gfix=0.40,0.10,0.02 ;rmv ap artifacts: ||amp(mV)||, ||slope(mV/sample)||, ||noise(mV)||
+[Thd 6408 CPU 4 8/27/20 19:44:08.619] -chnexcl=0,3:5       ;exclude these acq chans from ap loccar, gbldmx and gfix
+[Thd 6408 CPU 4 8/27/20 19:44:08.619] -SY=0,384,6,10       ;extract TTL signal from imec SY (probe,word,bit,millisec)
+[Thd 6408 CPU 4 8/27/20 19:44:08.620] -XA=2,3.0,0.08,25    ;extract TTL signal from nidq XA (word,thresh(v),min(V),millisec)
+[Thd 6408 CPU 4 8/27/20 19:44:08.620] -XD=8,0,0            ;extract TTL signal from nidq xD (word,bit,millisec)
+[Thd 6408 CPU 4 8/27/20 19:44:08.620] -dest=path           ;alternate path for output files (must exist)
+[Thd 6408 CPU 5 8/27/20 19:44:08.621] -out_prb_fld         ;if using -dest, create output subfolder per probe
+[Thd 6408 CPU 5 8/27/20 19:44:08.621] ------------------------
+
+[Thd 2536 CPU 7 8/27/20 19:54:11.727] Cmdline: CatGT -dir=D:/SGL_DATA -run=1pr_all_NI_test1_g0_g0 -g=0 -t=0,0 -prb_fld -prb=0 -ap -ni -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -XA=0,1,0,0 -XA=1,1,0,200 -XA=2,1,0,200 -XA=3,1,0,200 -XA=4,0.25,0,0 -XA=5,0.25,0,0 -XA=6,1,0,200 -XA=7,1,0,200 -XD=8,0,500 -XD=8,1,2 -XD=8,2,2 -XD=8,3,2 -XD=8,5,0 -XD=8,6,0 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 2536 CPU 4 8/27/20 19:54:11.731] Meta file not found 'D:/SGL_DATA/1pr_all_NI_test1_g0_g0_g0/1pr_all_NI_test1_g0_g0_g0_t0.nidq.meta'.
+[Thd 2536 CPU 4 8/27/20 19:54:11.731] 
+[Thd 3924 CPU 7 8/27/20 19:54:41.306] Cmdline: CatGT -dir=D:/SGL_DATA -run=1pr_all_NI_test1_g0_g0 -g=0 -t=0,0 -prb_fld -prb=0 -ap -ni -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -XA=0,1,0,0 -XA=1,1,0,200 -XA=2,1,0,200 -XA=3,1,0,200 -XA=4,0.25,0,0 -XA=5,0.25,0,0 -XA=6,1,0,200 -XA=7,1,0,200 -XD=8,0,500 -XD=8,1,2 -XD=8,2,2 -XD=8,3,2 -XD=8,5,0 -XD=8,6,0 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 3924 CPU 2 8/27/20 19:54:41.308] Meta file not found 'D:/SGL_DATA/1pr_all_NI_test1_g0_g0_g0/1pr_all_NI_test1_g0_g0_g0_t0.nidq.meta'.
+[Thd 3924 CPU 7 8/27/20 19:54:41.308] 
+[Thd 2924 CPU 6 8/27/20 19:58:16.132] Cmdline: CatGT -dir=D:/SGL_DATA -run=1pr_all_NI_test1_g0 -g=0 -t=0,0 -prb_fld -prb=0 -ap -ni -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -XA=0,1,0,0 -XA=1,1,0,200 -XA=2,1,0,200 -XA=3,1,0,200 -XA=4,0.25,0,0 -XA=5,0.25,0,0 -XA=6,1,0,200 -XA=7,1,0,200 -XD=8,0,500 -XD=8,1,2 -XD=8,2,2 -XD=8,3,2 -XD=8,5,0 -XD=8,6,0 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 2924 CPU 7 8/27/20 19:58:16.135] Meta file not found 'D:/SGL_DATA/1pr_all_NI_test1_g0_g0/1pr_all_NI_test1_g0_g0_t0.nidq.meta'.
+[Thd 2924 CPU 6 8/27/20 19:58:16.136] 
+[Thd 9400 CPU 2 8/27/20 19:58:24.264] Cmdline: CatGT -dir=D:/SGL_DATA -run=1pr_all_NI_test1_g0 -g=0 -t=0,0 -prb_fld -prb=0 -ap -ni -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -XA=0,1,0,0 -XA=1,1,0,200 -XA=2,1,0,200 -XA=3,1,0,200 -XA=4,0.25,0,0 -XA=5,0.25,0,0 -XA=6,1,0,200 -XA=7,1,0,200 -XD=8,0,500 -XD=8,1,2 -XD=8,2,2 -XD=8,3,2 -XD=8,5,0 -XD=8,6,0 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 9400 CPU 3 8/27/20 19:58:24.265] Meta file not found 'D:/SGL_DATA/1pr_all_NI_test1_g0_g0/1pr_all_NI_test1_g0_g0_t0.nidq.meta'.
+[Thd 9400 CPU 3 8/27/20 19:58:24.266] 
+[Thd 4420 CPU 2 8/27/20 20:00:03.651] Cmdline: CatGT -dir=D:/SGL_DATA -run=1pr_all_NI_test1_g0 -g=0 -t=0,0 -prb_fld -prb=0 -ap -ni -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -XA=0,1,0,0 -XA=1,1,0,200 -XA=2,1,0,200 -XA=3,1,0,200 -XA=4,0.25,0,0 -XA=5,0.25,0,0 -XA=6,1,0,200 -XA=7,1,0,200 -XD=8,0,500 -XD=8,1,2 -XD=8,2,2 -XD=8,3,2 -XD=8,5,0 -XD=8,6,0 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 4420 CPU 2 8/27/20 20:00:41.768] Done ap prb 0 t 0
+[Thd 4420 CPU 2 8/27/20 20:00:41.814] 
+[Thd 12172 CPU 5 9/07/20 17:54:03.257] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_11081135 -g=0 -t=0,0 -prb_fld -prb=0 -ap -ni -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -XA=0,1,0,0 -XA=1,0.5,0,0 -XA=2,0.5,0,0 -XA=3,0.5,0,200 -XA=4,0.25,0,0 -XA=5,0.25,0,0 -XA=6,0.5,0,200 -XA=7,0.5,0,200 -XD=8,0,500 -XD=8,1,2 -XD=8,2,2 -XD=8,3,2 -XD=8,5,0 -XD=8,6,0 -dest=D:\SGL_DATA\AK_11081135_g0\ -out_prb_fld
+[Thd 12172 CPU 2 9/07/20 18:00:54.716] Done ap prb 0 t 0
+[Thd 12172 CPU 1 9/07/20 18:00:54.777] 
+[Thd 5896 CPU 7 9/15/20 14:16:37.585] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1108135_S02_M2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -ni -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -XA=0,1,0,0 -XA=1,0.5,0,0 -XA=2,0.5,0,0 -XA=3,0.5,0,200 -XA=4,0.25,0,0 -XA=5,0.25,0,0 -XA=6,0.5,0,200 -XA=7,0.5,0,200 -XD=8,0,500 -XD=8,1,2 -XD=8,2,2 -XD=8,3,2 -XD=8,5,0 -XD=8,6,0 -dest=D:\CGT_OUT\ -out_prb_fld
+[Thd 5896 CPU 3 9/15/20 14:16:37.595] Meta file not found 'D:/SGL_DATA/AK_1108135_S02_M2_g0/AK_1108135_S02_M2_g0_t0.nidq.meta'.
+[Thd 5896 CPU 3 9/15/20 14:16:37.596] 
+[Thd 3924 CPU 4 9/15/20 14:19:41.919] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1108135_S02_M2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -ni -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -XA=0,1,0,0 -XA=1,0.5,0,0 -XA=2,0.5,0,0 -XA=3,0.5,0,200 -XA=4,0.25,0,0 -XA=5,0.25,0,0 -XA=6,0.5,0,200 -XA=7,0.5,0,200 -XD=8,0,500 -XD=8,1,2 -XD=8,2,2 -XD=8,3,2 -XD=8,5,0 -XD=8,6,0 -dest=D:/CGT_OUT/ -out_prb_fld
+[Thd 3924 CPU 5 9/15/20 14:19:41.921] Meta file not found 'D:/SGL_DATA/AK_1108135_S02_M2_g0/AK_1108135_S02_M2_g0_t0.nidq.meta'.
+[Thd 3924 CPU 4 9/15/20 14:19:41.922] 
+[Thd 7328 CPU 2 9/15/20 14:21:06.708] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1108135_S02_M2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -ni -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -XA=0,1,0,0 -XA=1,0.5,0,0 -XA=2,0.5,0,0 -XA=3,0.5,0,200 -XA=4,0.25,0,0 -XA=5,0.25,0,0 -XA=6,0.5,0,200 -XA=7,0.5,0,200 -XD=8,0,500 -XD=8,1,2 -XD=8,2,2 -XD=8,3,2 -XD=8,5,0 -XD=8,6,0 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 7328 CPU 2 9/15/20 14:21:06.710] Meta file not found 'D:/SGL_DATA/AK_1108135_S02_M2_g0/AK_1108135_S02_M2_g0_t0.nidq.meta'.
+[Thd 7328 CPU 2 9/15/20 14:21:06.711] 
+[Thd 8520 CPU 6 9/15/20 14:25:51.356] Cmdline: CatGT -dir=D:/SGL_DATA -run=1108135_S02_M2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -ni -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -XA=0,1,0,0 -XA=1,0.5,0,0 -XA=2,0.5,0,0 -XA=3,0.5,0,200 -XA=4,0.25,0,0 -XA=5,0.25,0,0 -XA=6,0.5,0,200 -XA=7,0.5,0,200 -XD=8,0,500 -XD=8,1,2 -XD=8,2,2 -XD=8,3,2 -XD=8,5,0 -XD=8,6,0 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 8520 CPU 6 9/15/20 14:25:51.358] Meta file not found 'D:/SGL_DATA/1108135_S02_M2_g0/1108135_S02_M2_g0_t0.nidq.meta'.
+[Thd 8520 CPU 7 9/15/20 14:25:51.358] 
+[Thd 8592 CPU 1 9/15/20 14:26:08.194] Cmdline: CatGT -dir=D:/SGL_DATA -run= -g=0 -t=0,0 -prb_fld -prb=0 -ap -ni -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -XA=0,1,0,0 -XA=1,0.5,0,0 -XA=2,0.5,0,0 -XA=3,0.5,0,200 -XA=4,0.25,0,0 -XA=5,0.25,0,0 -XA=6,0.5,0,200 -XA=7,0.5,0,200 -XD=8,0,500 -XD=8,1,2 -XD=8,2,2 -XD=8,3,2 -XD=8,5,0 -XD=8,6,0 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 8592 CPU 1 9/15/20 14:26:08.197] Meta file not found 'D:/SGL_DATA/_g0/_g0_t0.nidq.meta'.
+[Thd 8592 CPU 1 9/15/20 14:26:08.197] 
+[Thd 9476 CPU 5 9/15/20 14:28:14.838] Cmdline: CatGT -dir=D:/SGL_DATA -run=1108135_S02_M2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -ni -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -XA=0,1,0,0 -XA=1,0.5,0,0 -XA=2,0.5,0,0 -XA=3,0.5,0,200 -XA=4,0.25,0,0 -XA=5,0.25,0,0 -XA=6,0.5,0,200 -XA=7,0.5,0,200 -XD=8,0,500 -XD=8,1,2 -XD=8,2,2 -XD=8,3,2 -XD=8,5,0 -XD=8,6,0 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 9476 CPU 5 9/15/20 14:28:14.841] Meta file not found 'D:/SGL_DATA/1108135_S02_M2_g0/1108135_S02_M2_g0_t0.nidq.meta'.
+[Thd 9476 CPU 5 9/15/20 14:28:14.841] 
+[Thd 8576 CPU 3 9/15/20 14:29:42.199] Cmdline: CatGT -dir=D:/SGL_DATA -run=1108135_S02_M2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -ni -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -XA=0,1,0,0 -XA=1,0.5,0,0 -XA=2,0.5,0,0 -XA=3,0.5,0,200 -XA=4,0.25,0,0 -XA=5,0.25,0,0 -XA=6,0.5,0,200 -XA=7,0.5,0,200 -XD=8,0,500 -XD=8,1,2 -XD=8,2,2 -XD=8,3,2 -XD=8,5,0 -XD=8,6,0 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 8576 CPU 3 9/15/20 14:34:13.786] Done ap prb 0 t 0
+[Thd 8576 CPU 3 9/15/20 14:34:13.846] 
+[Thd 2280 CPU 7 9/15/20 14:58:04.530] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1108135_S03_M2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -ni -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -XA=0,1,0,0 -XA=1,0.5,0,0 -XA=2,0.5,0,0 -XA=3,0.5,0,200 -XA=4,0.25,0,0 -XA=5,0.25,0,0 -XA=6,0.5,0,200 -XA=7,0.5,0,200 -XD=8,0,500 -XD=8,1,2 -XD=8,2,2 -XD=8,3,2 -XD=8,5,0 -XD=8,6,0 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 2280 CPU 7 9/15/20 15:06:06.118] Done ap prb 0 t 0
+[Thd 2280 CPU 0 9/15/20 15:06:06.205] 
+[Thd 4412 CPU 2 9/15/20 19:14:57.677] Cmdline: CatGT -dir=D:/SGL_DATA -run=testrun -g=0 -t=0,0 -prb_fld -prb=0 -ap -ni -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -XA=0,1,0,0 -XA=1,0.5,0,0 -XA=2,0.5,0,0 -XA=3,0.5,0,200 -XA=4,0.25,0,0 -XA=5,0.25,0,0 -XA=6,0.5,0,200 -XA=7,0.5,0,200 -XD=8,0,500 -XD=8,1,2 -XD=8,2,2 -XD=8,3,2 -XD=8,5,0 -XD=8,6,0 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 4412 CPU 1 9/15/20 19:14:57.680] Meta file not found 'D:/SGL_DATA/testrun_g0/testrun_g0_t0.nidq.meta'.
+[Thd 4412 CPU 1 9/15/20 19:14:57.680] 
+[Thd 7584 CPU 4 9/17/20 20:37:33.592] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1108135_S07 -g=0 -t=0,0 -prb_fld -prb=0 -ap -ni -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -XA=0,1,0,0 -XA=1,0.5,0,0 -XA=2,0.5,0,0 -XA=3,0.5,0,200 -XA=4,0.25,0,0 -XA=5,0.25,0,0 -XA=6,0.5,0,200 -XA=7,0.5,0,200 -XD=8,0,500 -XD=8,1,2 -XD=8,2,2 -XD=8,3,2 -XD=8,5,0 -XD=8,6,0 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 7584 CPU 4 9/17/20 20:52:55.915] Done ap prb 0 t 0
+[Thd 7584 CPU 4 9/17/20 20:52:55.959] 
+[Thd 3420 CPU 6 9/17/20 22:51:44.571] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1108135_S06_V1 -g=0 -t=0,0 -prb_fld -prb=0 -ap -ni -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -XA=0,1,0,0 -XA=1,0.5,0,0 -XA=2,0.5,0,0 -XA=3,0.5,0,200 -XA=4,0.25,0,0 -XA=5,0.25,0,0 -XA=6,0.5,0,200 -XA=7,0.5,0,200 -XD=8,0,500 -XD=8,1,2 -XD=8,2,2 -XD=8,3,2 -XD=8,5,0 -XD=8,6,0 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 3420 CPU 6 9/17/20 22:58:56.890] Done ap prb 0 t 0
+[Thd 3420 CPU 0 9/17/20 22:58:56.937] 
+[Thd 5140 CPU 1 9/18/20 12:31:27.896] Cmdline: CatGT -dir=D:/SGL_DATA -run=testrun -g=0 -t=0,0 -prb_fld -prb=0 -ap -ni -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -XA=0,1,0,0 -XA=1,0.5,0,0 -XA=2,0.5,0,0 -XA=3,0.5,0,200 -XA=4,0.25,0,0 -XA=5,0.25,0,0 -XA=6,0.5,0,200 -XA=7,0.5,0,200 -XD=8,0,500 -XD=8,1,2 -XD=8,2,2 -XD=8,3,2 -XD=8,5,0 -XD=8,6,0 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 5140 CPU 1 9/18/20 12:31:27.898] Meta file not found 'D:/SGL_DATA/testrun_g0/testrun_g0_t0.nidq.meta'.
+[Thd 5140 CPU 1 9/18/20 12:31:27.898] 
+[Thd 7116 CPU 0 9/18/20 12:33:07.950] Cmdline: CatGT -dir=D:/SGL_DATA -run=testrun -g=0 -t=0,0 -prb_fld -prb=0 -ap -ni -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -XA=0,1,0,0 -XA=1,0.5,0,0 -XA=2,0.5,0,0 -XA=3,0.5,0,200 -XA=4,0.25,0,0 -XA=5,0.25,0,0 -XA=6,0.5,0,200 -XA=7,0.5,0,200 -XD=8,0,500 -XD=8,1,2 -XD=8,2,2 -XD=8,3,2 -XD=8,5,0 -XD=8,6,0 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 7116 CPU 0 9/18/20 12:33:07.952] Meta file not found 'D:/SGL_DATA/testrun_g0/testrun_g0_t0.nidq.meta'.
+[Thd 7116 CPU 0 9/18/20 12:33:07.952] 
+[Thd 9212 CPU 3 9/18/20 12:33:25.570] Cmdline: CatGT -dir=D:/SGL_DATA -run=testrun -g=0 -t=0,0 -prb_fld -prb=0 -ap -ni -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -XA=0,1,0,0 -XA=1,0.5,0,0 -XA=2,0.5,0,0 -XA=3,0.5,0,200 -XA=4,0.25,0,0 -XA=5,0.25,0,0 -XA=6,0.5,0,200 -XA=7,0.5,0,200 -XD=8,0,500 -XD=8,1,2 -XD=8,2,2 -XD=8,3,2 -XD=8,5,0 -XD=8,6,0 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 9212 CPU 3 9/18/20 12:33:25.572] Meta file not found 'D:/SGL_DATA/testrun_g0/testrun_g0_t0.nidq.meta'.
+[Thd 9212 CPU 5 9/18/20 12:33:25.572] 
+[Thd 6672 CPU 6 10/01/20 17:04:31.997] Cmdline: CatGT -dir=D:/SGL_DATA -run=testrun -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -dest=D:/CGT_OUT -out_prb_fld
+[Thd 6672 CPU 6 10/01/20 17:08:15.597] Done ap prb 0 t 0
+[Thd 6672 CPU 3 10/01/20 17:08:15.686] 
+[Thd 3176 CPU 3 10/01/20 17:31:29.073] Error: Bad g- or t-indices.
+[Thd 3176 CPU 3 10/01/20 17:31:29.073] 
+[Thd 3176 CPU 3 10/01/20 17:31:29.073] *** ERROR: MISSING CRITICAL PARAMETERS ***
+
+[Thd 3176 CPU 3 10/01/20 17:31:29.073] ------------------------
+[Thd 3176 CPU 3 10/01/20 17:31:29.073] Purpose:
+[Thd 3176 CPU 3 10/01/20 17:31:29.073] + Optionally join trials with given run_name and g-index in t-index range [ta,tb]...
+[Thd 3176 CPU 3 10/01/20 17:31:29.073] + ...Or run on any individual file.
+[Thd 3176 CPU 3 10/01/20 17:31:29.073] + Optionally apply bandpass and global demux CAR filters.
+[Thd 3176 CPU 3 10/01/20 17:31:29.073] + Optionally edit out saturation artifacts.
+[Thd 3176 CPU 3 10/01/20 17:31:29.073] + Optionally extract tables of sync waveform edge times to drive TPrime.
+[Thd 3176 CPU 3 10/01/20 17:31:29.073] + Optionally extract tables of any other TTL event times to be aligned with spikes.
+
+[Thd 3176 CPU 3 10/01/20 17:31:29.073] Output:
+[Thd 3176 CPU 3 10/01/20 17:31:29.073] + Results are placed next to source, named like this, with t-index = tcat:
+[Thd 3176 CPU 3 10/01/20 17:31:29.073] +    path/run_name_g5_tcat.imec1.ap.bin.
+[Thd 3176 CPU 3 10/01/20 17:31:29.073] + Errors and run messages are appended to CatGT.log in the app folder.
+
+[Thd 3176 CPU 3 10/01/20 17:31:29.073] Usage:
+[Thd 3176 CPU 3 10/01/20 17:31:29.073] >CatGT -dir=data_dir -run=run_name -g=g -t=ta,tb <which streams> [ options ]
+
+[Thd 3176 CPU 3 10/01/20 17:31:29.073] Which streams:
+[Thd 3176 CPU 3 10/01/20 17:31:29.073] -ap                  ;required to process ap streams
+[Thd 3176 CPU 3 10/01/20 17:31:29.073] -lf                  ;required to process lf streams
+[Thd 3176 CPU 3 10/01/20 17:31:29.073] -ni                  ;required to process ni stream
+[Thd 3176 CPU 3 10/01/20 17:31:29.083] -prb_3A              ;if -ap or -lf process 3A-style probe files, e.g. run_name_g0_t0.imec.ap.bin
+[Thd 3176 CPU 3 10/01/20 17:31:29.083] -prb=0,3:5           ;if -ap or -lf AND !prb_3A process these probes
+
+[Thd 3176 CPU 3 10/01/20 17:31:29.083] Options:
+[Thd 3176 CPU 3 10/01/20 17:31:29.083] -no_run_fld          ;older data generated before run folders were automatic
+[Thd 3176 CPU 3 10/01/20 17:31:29.083] -prb_fld             ;use folder-per-probe organization
+[Thd 3176 CPU 3 10/01/20 17:31:29.083] -prb_miss_ok         ;instead of stopping, silently skip missing probes
+[Thd 3176 CPU 3 10/01/20 17:31:29.083] -t=cat               ;extract TTL from CatGT output files (instead of -t=ta,tb)
+[Thd 3176 CPU 3 10/01/20 17:31:29.083] -exported            ;apply FileViewer 'exported' tag to in/output filenames
+[Thd 3176 CPU 3 10/01/20 17:31:29.083] -t_miss_ok           ;instead of stopping, zero-fill if trial missing
+[Thd 3176 CPU 3 10/01/20 17:31:29.083] -aphipass=300        ;apply ap high pass filter (float Hz)
+[Thd 3176 CPU 3 10/01/20 17:31:29.083] -aplopass=9000       ;apply ap low  pass filter (float Hz)
+[Thd 3176 CPU 3 10/01/20 17:31:29.083] -lfhipass=0.1        ;apply lf high pass filter (float Hz)
+[Thd 3176 CPU 3 10/01/20 17:31:29.083] -lflopass=1000       ;apply lf low  pass filter (float Hz)
+[Thd 3176 CPU 3 10/01/20 17:31:29.083] -loccar=2,8          ;apply ap local CAR annulus (exclude radius,include radius)
+[Thd 3176 CPU 3 10/01/20 17:31:29.083] -gbldmx              ;apply ap global demux filter
+[Thd 3176 CPU 3 10/01/20 17:31:29.083] -gfix=0.40,0.10,0.02 ;rmv ap artifacts: ||amp(mV)||, ||slope(mV/sample)||, ||noise(mV)||
+[Thd 3176 CPU 3 10/01/20 17:31:29.083] -chnexcl=0,3:5       ;exclude these acq chans from ap loccar, gbldmx and gfix
+[Thd 3176 CPU 3 10/01/20 17:31:29.083] -SY=0,384,6,10       ;extract TTL signal from imec SY (probe,word,bit,millisec)
+[Thd 3176 CPU 3 10/01/20 17:31:29.083] -XA=2,3.0,0.08,25    ;extract TTL signal from nidq XA (word,thresh(v),min(V),millisec)
+[Thd 3176 CPU 3 10/01/20 17:31:29.083] -XD=8,0,0            ;extract TTL signal from nidq xD (word,bit,millisec)
+[Thd 3176 CPU 3 10/01/20 17:31:29.083] -dest=path           ;alternate path for output files (must exist)
+[Thd 3176 CPU 3 10/01/20 17:31:29.083] -out_prb_fld         ;if using -dest, create output subfolder per probe
+[Thd 3176 CPU 3 10/01/20 17:31:29.083] ------------------------
+
+[Thd 5712 CPU 7 10/01/20 17:32:37.290] Error: Bad g- or t-indices.
+[Thd 5712 CPU 7 10/01/20 17:32:37.290] 
+[Thd 5712 CPU 4 10/01/20 17:32:37.290] *** ERROR: MISSING CRITICAL PARAMETERS ***
+
+[Thd 5712 CPU 7 10/01/20 17:32:37.300] ------------------------
+[Thd 5712 CPU 7 10/01/20 17:32:37.300] Purpose:
+[Thd 5712 CPU 7 10/01/20 17:32:37.300] + Optionally join trials with given run_name and g-index in t-index range [ta,tb]...
+[Thd 5712 CPU 7 10/01/20 17:32:37.300] + ...Or run on any individual file.
+[Thd 5712 CPU 7 10/01/20 17:32:37.300] + Optionally apply bandpass and global demux CAR filters.
+[Thd 5712 CPU 7 10/01/20 17:32:37.300] + Optionally edit out saturation artifacts.
+[Thd 5712 CPU 7 10/01/20 17:32:37.300] + Optionally extract tables of sync waveform edge times to drive TPrime.
+[Thd 5712 CPU 7 10/01/20 17:32:37.300] + Optionally extract tables of any other TTL event times to be aligned with spikes.
+
+[Thd 5712 CPU 7 10/01/20 17:32:37.300] Output:
+[Thd 5712 CPU 7 10/01/20 17:32:37.300] + Results are placed next to source, named like this, with t-index = tcat:
+[Thd 5712 CPU 7 10/01/20 17:32:37.300] +    path/run_name_g5_tcat.imec1.ap.bin.
+[Thd 5712 CPU 7 10/01/20 17:32:37.300] + Errors and run messages are appended to CatGT.log in the app folder.
+
+[Thd 5712 CPU 7 10/01/20 17:32:37.300] Usage:
+[Thd 5712 CPU 7 10/01/20 17:32:37.300] >CatGT -dir=data_dir -run=run_name -g=g -t=ta,tb <which streams> [ options ]
+
+[Thd 5712 CPU 7 10/01/20 17:32:37.300] Which streams:
+[Thd 5712 CPU 7 10/01/20 17:32:37.300] -ap                  ;required to process ap streams
+[Thd 5712 CPU 7 10/01/20 17:32:37.300] -lf                  ;required to process lf streams
+[Thd 5712 CPU 7 10/01/20 17:32:37.300] -ni                  ;required to process ni stream
+[Thd 5712 CPU 7 10/01/20 17:32:37.300] -prb_3A              ;if -ap or -lf process 3A-style probe files, e.g. run_name_g0_t0.imec.ap.bin
+[Thd 5712 CPU 7 10/01/20 17:32:37.300] -prb=0,3:5           ;if -ap or -lf AND !prb_3A process these probes
+
+[Thd 5712 CPU 7 10/01/20 17:32:37.300] Options:
+[Thd 5712 CPU 7 10/01/20 17:32:37.300] -no_run_fld          ;older data generated before run folders were automatic
+[Thd 5712 CPU 7 10/01/20 17:32:37.300] -prb_fld             ;use folder-per-probe organization
+[Thd 5712 CPU 7 10/01/20 17:32:37.300] -prb_miss_ok         ;instead of stopping, silently skip missing probes
+[Thd 5712 CPU 7 10/01/20 17:32:37.300] -t=cat               ;extract TTL from CatGT output files (instead of -t=ta,tb)
+[Thd 5712 CPU 7 10/01/20 17:32:37.300] -exported            ;apply FileViewer 'exported' tag to in/output filenames
+[Thd 5712 CPU 7 10/01/20 17:32:37.300] -t_miss_ok           ;instead of stopping, zero-fill if trial missing
+[Thd 5712 CPU 7 10/01/20 17:32:37.300] -aphipass=300        ;apply ap high pass filter (float Hz)
+[Thd 5712 CPU 7 10/01/20 17:32:37.300] -aplopass=9000       ;apply ap low  pass filter (float Hz)
+[Thd 5712 CPU 7 10/01/20 17:32:37.300] -lfhipass=0.1        ;apply lf high pass filter (float Hz)
+[Thd 5712 CPU 7 10/01/20 17:32:37.300] -lflopass=1000       ;apply lf low  pass filter (float Hz)
+[Thd 5712 CPU 7 10/01/20 17:32:37.300] -loccar=2,8          ;apply ap local CAR annulus (exclude radius,include radius)
+[Thd 5712 CPU 7 10/01/20 17:32:37.300] -gbldmx              ;apply ap global demux filter
+[Thd 5712 CPU 7 10/01/20 17:32:37.300] -gfix=0.40,0.10,0.02 ;rmv ap artifacts: ||amp(mV)||, ||slope(mV/sample)||, ||noise(mV)||
+[Thd 5712 CPU 7 10/01/20 17:32:37.310] -chnexcl=0,3:5       ;exclude these acq chans from ap loccar, gbldmx and gfix
+[Thd 5712 CPU 7 10/01/20 17:32:37.310] -SY=0,384,6,10       ;extract TTL signal from imec SY (probe,word,bit,millisec)
+[Thd 5712 CPU 7 10/01/20 17:32:37.310] -XA=2,3.0,0.08,25    ;extract TTL signal from nidq XA (word,thresh(v),min(V),millisec)
+[Thd 5712 CPU 7 10/01/20 17:32:37.310] -XD=8,0,0            ;extract TTL signal from nidq xD (word,bit,millisec)
+[Thd 5712 CPU 7 10/01/20 17:32:37.310] -dest=path           ;alternate path for output files (must exist)
+[Thd 5712 CPU 7 10/01/20 17:32:37.310] -out_prb_fld         ;if using -dest, create output subfolder per probe
+[Thd 5712 CPU 7 10/01/20 17:32:37.310] ------------------------
+
+[Thd 3436 CPU 1 10/01/20 17:36:26.841] Did not understand option '-prb=0,1-aphipass=300'.
+
+[Thd 11476 CPU 7 10/01/20 17:37:13.890] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1108135_S05_V1-M2 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -dest=D:/CGT_OUT -out_prb_fld
+[Thd 11476 CPU 1 10/01/20 17:37:13.890] Meta file not found 'D:/SGL_DATA/AK_1108135_S05_V1-M2_g0/AK_1108135_S05_V1-M2_g0_imec0/AK_1108135_S05_V1-M2_g0_t0.imec0.ap.meta'.
+[Thd 11476 CPU 1 10/01/20 17:37:13.890] 
+[Thd 2404 CPU 2 10/01/20 17:37:26.985] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1108135_S05_V1-M2 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -dest=D:/CGT_OUT -out_prb_fld
+[Thd 2404 CPU 2 10/01/20 17:37:26.985] Meta file not found 'D:/SGL_DATA/AK_1108135_S05_V1-M2_g0/AK_1108135_S05_V1-M2_g0_imec0/AK_1108135_S05_V1-M2_g0_t0.imec0.ap.meta'.
+[Thd 2404 CPU 3 10/01/20 17:37:26.985] 
+[Thd 11508 CPU 4 10/01/20 17:39:54.244] Did not understand option '-prb=0,1-aphipass=300'.
+
+[Thd 5924 CPU 2 10/01/20 17:46:52.779] Did not understand option '-prb=0-aphipass=300'.
+
+[Thd 7440 CPU 6 10/01/20 17:48:06.273] Cmdline: CatGT -dir=D:/SGL_DATA -run=testrun -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 10828 CPU 1 10/01/20 17:52:13.138] Cmdline: CatGT -dir=D:/SGL_DATA -run=testrun -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 10828 CPU 4 10/01/20 17:56:02.843] Done ap prb 0 t 0
+[Thd 10828 CPU 2 10/01/20 17:56:02.853] 
+[Thd 10680 CPU 0 10/01/20 18:01:04.846] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1108135_S05_V1-M2 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 10680 CPU 1 10/01/20 18:07:06.327] Done ap prb 0 t 0
+[Thd 10680 CPU 2 10/01/20 18:13:05.110] Done ap prb 1 t 0
+[Thd 10680 CPU 0 10/01/20 18:13:05.128] 
+[Thd 8372 CPU 7 10/22/20 18:39:10.906] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1116760_S01_M2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 8372 CPU 3 10/22/20 18:48:26.057] Done ap prb 0 t 0
+[Thd 8372 CPU 4 10/22/20 18:48:26.077] 
+[Thd 9720 CPU 4 10/23/20 19:06:05.204] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1116760_S02_M2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 9720 CPU 4 10/23/20 19:11:34.543] Done ap prb 0 t 0
+[Thd 9720 CPU 4 10/23/20 19:11:34.563] 
+[Thd 5492 CPU 1 10/24/20 19:00:32.381] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1116760_S03 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 5492 CPU 1 10/24/20 19:10:01.516] Done ap prb 0 t 0
+[Thd 5492 CPU 1 10/24/20 19:10:01.526] 
+[Thd 1764 CPU 2 10/26/20 20:58:08.567] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1116760_S04_M2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 1764 CPU 1 10/26/20 21:06:47.566] Done ap prb 0 t 0
+[Thd 1764 CPU 0 10/26/20 21:06:47.586] 
+[Thd 12276 CPU 1 10/27/20 20:48:02.737] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1116760_S05_M2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 12276 CPU 2 10/27/20 20:56:10.807] Done ap prb 0 t 0
+[Thd 12276 CPU 1 10/27/20 20:56:10.827] 
+[Thd 2520 CPU 3 10/28/20 20:22:17.360] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1116760_S06_M2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 2520 CPU 7 10/28/20 20:30:53.833] Done ap prb 0 t 0
+[Thd 2520 CPU 3 10/28/20 20:30:53.841] 
+[Thd 3512 CPU 7 10/30/20 14:29:17.683] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1116764_S01_V1 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 3512 CPU 6 10/30/20 14:38:28.951] Done ap prb 0 t 0
+[Thd 3512 CPU 7 10/30/20 14:38:28.961] 
+[Thd 12152 CPU 3 10/30/20 20:07:23.193] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1116760_S07_M2_V1 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 12152 CPU 5 10/30/20 20:15:20.797] Done ap prb 0 t 0
+[Thd 12152 CPU 0 10/30/20 20:23:11.840] Done ap prb 1 t 0
+[Thd 12152 CPU 3 10/30/20 20:23:11.960] 
+[Thd 3392 CPU 0 10/31/20 16:56:53.091] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1116764_S02_M2_V1 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 3392 CPU 2 10/31/20 17:04:24.584] Done ap prb 0 t 0
+[Thd 3392 CPU 5 10/31/20 17:12:10.999] Done ap prb 1 t 0
+[Thd 3392 CPU 0 10/31/20 17:12:11.025] 
+[Thd 14116 CPU 3 10/31/20 21:36:10.809] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1116760_S08_M2_V1 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 14116 CPU 7 10/31/20 21:43:36.842] Done ap prb 0 t 0
+[Thd 14116 CPU 3 10/31/20 21:51:01.920] Done ap prb 1 t 0
+[Thd 14116 CPU 3 10/31/20 21:51:01.960] 
+[Thd 8384 CPU 3 11/01/20 18:11:24.753] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1116764_S03_M2_V1 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 8384 CPU 6 11/01/20 18:20:28.001] Done ap prb 0 t 0
+[Thd 8384 CPU 3 11/01/20 18:29:30.206] Done ap prb 1 t 0
+[Thd 8384 CPU 3 11/01/20 18:29:30.234] 
+[Thd 1564 CPU 1 11/02/20 15:05:33.270] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1116764_S04_M2_SNr -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 1564 CPU 2 11/02/20 15:14:40.172] Done ap prb 0 t 0
+[Thd 1564 CPU 7 11/02/20 15:23:47.219] Done ap prb 1 t 0
+[Thd 1564 CPU 3 11/02/20 15:23:47.493] 
+[Thd 7668 CPU 2 11/02/20 20:05:40.289] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1116760_S09_M2_V1 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 7668 CPU 2 11/02/20 20:17:46.736] Done ap prb 0 t 0
+[Thd 7668 CPU 6 11/02/20 20:29:48.281] Done ap prb 1 t 0
+[Thd 7668 CPU 2 11/02/20 20:29:48.299] 
+[Thd 13556 CPU 5 11/03/20 14:37:24.633] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1116764_S05_V1 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 13556 CPU 5 11/03/20 14:45:17.340] Done ap prb 0 t 0
+[Thd 13556 CPU 5 11/03/20 14:45:17.350] 
+[Thd 12756 CPU 0 11/03/20 18:43:46.932] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1116760_S10_V1 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 12756 CPU 7 11/03/20 18:52:47.879] Done ap prb 0 t 0
+[Thd 12756 CPU 0 11/03/20 18:52:47.889] 
+[Thd 7676 CPU 7 11/06/20 13:23:35.325] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1116764_S06_V1 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 7676 CPU 3 11/06/20 13:33:28.964] Done ap prb 0 t 0
+[Thd 7676 CPU 3 11/06/20 13:33:28.974] 
+[Thd 12816 CPU 0 11/08/20 16:44:26.152] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1116764_S07_V1 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 12816 CPU 5 11/08/20 16:52:26.727] Done ap prb 0 t 0
+[Thd 12816 CPU 1 11/08/20 16:52:26.737] 
+[Thd 13652 CPU 7 11/08/20 18:18:26.473] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1116764_S06_V1 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 13652 CPU 7 11/08/20 18:28:27.188] Done ap prb 0 t 0
+[Thd 13652 CPU 7 11/08/20 18:28:27.308] 
+[Thd 12516 CPU 2 11/17/20 19:32:01.664] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1116765_S01_GPe_V1 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 12516 CPU 7 11/17/20 19:51:21.136] Done ap prb 0 t 0
+[Thd 12516 CPU 4 11/17/20 20:01:11.151] Done ap prb 1 t 0
+[Thd 12516 CPU 0 11/17/20 20:01:11.169] 
+[Thd 3256 CPU 2 11/18/20 19:07:42.838] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1116765_S02_Sub -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 3256 CPU 2 11/18/20 19:16:17.712] Done ap prb 0 t 0
+[Thd 3256 CPU 3 11/18/20 19:16:17.732] 
+[Thd 13020 CPU 5 11/19/20 19:54:12.094] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1116765_S03_V1RL_Str -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 13020 CPU 5 11/19/20 20:09:49.891] Done ap prb 0 t 0
+[Thd 13020 CPU 5 11/19/20 20:21:13.302] Done ap prb 1 t 0
+[Thd 13020 CPU 5 11/19/20 20:21:13.332] 
+[Thd 12896 CPU 5 11/21/20 19:06:30.857] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1116765_S04_M1_SNr -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 12896 CPU 3 11/21/20 19:22:33.822] Done ap prb 0 t 0
+[Thd 12896 CPU 5 11/21/20 19:30:17.805] Done ap prb 1 t 0
+[Thd 12896 CPU 5 11/21/20 19:30:17.966] 
+[Thd 11620 CPU 3 11/22/20 18:52:37.434] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1116765_S05_M2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 11620 CPU 1 11/22/20 19:14:01.126] Done ap prb 0 t 0
+[Thd 11620 CPU 5 11/22/20 19:14:01.276] 
+[Thd 13356 CPU 2 11/24/20 19:33:24.031] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1116765_S06_M1_MRN -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 13356 CPU 4 11/24/20 19:43:19.981] Done ap prb 0 t 0
+[Thd 13356 CPU 0 11/24/20 19:53:14.732] Done ap prb 1 t 0
+[Thd 13356 CPU 2 11/24/20 19:53:14.782] 
+[Thd 12480 CPU 1 11/26/20 14:57:40.988] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1116763_S01_AM -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 12480 CPU 1 11/26/20 15:05:30.514] Done ap prb 0 t 0
+[Thd 12480 CPU 3 11/26/20 15:05:30.528] 
+[Thd 13132 CPU 2 11/26/20 18:01:13.508] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1116763_S02_VM_M2 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 13132 CPU 2 11/26/20 18:11:13.200] Done ap prb 0 t 0
+[Thd 13132 CPU 2 11/26/20 18:21:04.876] Done ap prb 1 t 0
+[Thd 13132 CPU 2 11/26/20 18:21:04.994] 
+[Thd 11748 CPU 4 11/26/20 19:43:25.456] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1116765_S07_GPe -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 11748 CPU 4 11/26/20 19:53:19.322] Done ap prb 0 t 0
+[Thd 11748 CPU 4 11/26/20 19:53:19.340] 
+[Thd 11096 CPU 5 11/27/20 16:53:04.246] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1116763_S03_VM_M1 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 11096 CPU 1 11/27/20 17:02:22.105] Done ap prb 0 t 0
+[Thd 11096 CPU 3 11/27/20 17:11:39.715] Done ap prb 1 t 0
+[Thd 11096 CPU 0 11/27/20 17:11:39.741] 
+[Thd 8204 CPU 4 11/27/20 22:24:51.723] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1116765_S08_AMHyp -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 8204 CPU 4 11/27/20 22:33:09.146] Done ap prb 0 t 0
+[Thd 8204 CPU 2 11/27/20 22:33:09.166] 
+[Thd 4180 CPU 2 11/28/20 16:26:23.828] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1116765_S09_M1_HypPF -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 4180 CPU 5 11/28/20 16:36:09.800] Done ap prb 0 t 0
+[Thd 4180 CPU 3 11/28/20 16:45:48.343] Done ap prb 1 t 0
+[Thd 4180 CPU 3 11/28/20 16:45:48.353] 
+[Thd 10000 CPU 2 11/29/20 19:31:11.202] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1116765_S10_AMLPPF -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 10000 CPU 3 11/29/20 19:49:01.011] Done ap prb 0 t 0
+[Thd 10000 CPU 2 11/29/20 19:49:01.071] 
+[Thd 11144 CPU 1 11/30/20 13:22:31.453] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1116763_S04_VA -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 11144 CPU 3 11/30/20 13:31:02.102] Done ap prb 0 t 0
+[Thd 11144 CPU 1 11/30/20 13:31:02.122] 
+[Thd 7988 CPU 4 12/01/20 17:51:19.895] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1116763_S05_VA -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 7988 CPU 1 12/01/20 18:02:41.435] Done ap prb 0 t 0
+[Thd 7988 CPU 4 12/01/20 18:02:41.445] 
+[Thd 2292 CPU 0 12/02/20 14:30:47.059] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1116763_S06_thal -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 2292 CPU 5 12/02/20 14:38:30.567] Done ap prb 0 t 0
+[Thd 2292 CPU 0 12/02/20 14:38:30.687] 
+[Thd 12820 CPU 6 12/03/20 15:32:22.773] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1116763_S07_thal -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 12820 CPU 6 12/03/20 15:38:49.215] Done ap prb 0 t 0
+[Thd 12820 CPU 6 12/03/20 15:38:49.255] 
+[Thd 5888 CPU 1 12/04/20 12:52:12.974] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1116763_S08_thalv2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 5888 CPU 2 12/04/20 12:59:53.247] Done ap prb 0 t 0
+[Thd 5888 CPU 1 12/04/20 12:59:53.257] 
+[Thd 2220 CPU 0 12/06/20 16:29:03.382] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1116763_S09_thal -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 2220 CPU 2 12/06/20 16:38:05.021] Done ap prb 0 t 0
+[Thd 2220 CPU 6 12/06/20 16:38:05.031] 
+[Thd 13164 CPU 7 12/07/20 12:30:40.165] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1116763_S10_thal -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 13164 CPU 7 12/07/20 12:38:39.726] Done ap prb 0 t 0
+[Thd 13164 CPU 7 12/07/20 12:38:39.756] 
+[Thd 7076 CPU 0 12/10/20 18:04:13.251] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1117918_S01_CB -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 7076 CPU 3 12/10/20 18:12:21.332] Done ap prb 0 t 0
+[Thd 7076 CPU 0 12/10/20 18:12:21.332] 
+[Thd 10780 CPU 7 12/11/20 18:03:03.666] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1117918_S02_CB -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 10780 CPU 7 12/11/20 18:11:21.696] Done ap prb 0 t 0
+[Thd 10780 CPU 7 12/11/20 18:11:21.707] 
+[Thd 10052 CPU 6 12/12/20 20:52:44.810] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1117918_S03_CB -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=D:/CGT_OUT -out_prb_fld
+[Thd 10052 CPU 4 12/12/20 21:01:01.982] Done ap prb 0 t 0
+[Thd 10052 CPU 6 12/12/20 21:01:02.002] 
+[Thd 10628 CPU 1 1/14/21 21:37:22.716] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1118169_optopilot1_S01_V1 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 10628 CPU 0 1/14/21 21:46:36.871] Done ap prb 0 t 0
+[Thd 10628 CPU 0 1/14/21 21:46:37.062] 
+[Thd 5564 CPU 7 1/15/21 15:18:02.155] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1118169_optopilot1_S02_V1 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 5564 CPU 7 1/15/21 15:25:54.950] Done ap prb 0 t 0
+[Thd 5564 CPU 7 1/15/21 15:25:55.131] 
+[Thd 7516 CPU 5 1/17/21 20:16:27.013] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1118169_optopilot1_S04_V1 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 7516 CPU 2 1/17/21 20:19:32.271] Done ap prb 0 t 0
+[Thd 7516 CPU 1 1/17/21 20:19:32.299] 
+[Thd 8688 CPU 5 1/17/21 20:34:37.473] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1118169_optopilot1_S03_V1 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 8688 CPU 5 1/17/21 20:37:32.150] Done ap prb 0 t 0
+[Thd 8688 CPU 5 1/17/21 20:37:32.188] 
+[Thd 10540 CPU 4 1/19/21 17:55:52.845] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1118168_optopilot2_S01_V1 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 10540 CPU 3 1/19/21 17:59:12.292] Done ap prb 0 t 0
+[Thd 10540 CPU 4 1/19/21 17:59:12.309] 
+[Thd 1944 CPU 4 1/19/21 18:59:19.917] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1118168_optopilot2_S02_V1 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 1944 CPU 4 1/19/21 19:02:34.244] Done ap prb 0 t 0
+[Thd 1944 CPU 4 1/19/21 19:02:34.260] 
+[Thd 11160 CPU 3 1/19/21 20:05:18.332] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1118168_optopilot2_S03_V1 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 11160 CPU 3 1/19/21 20:08:32.977] Done ap prb 0 t 0
+[Thd 11160 CPU 4 1/19/21 20:08:32.998] 
+[Thd 10796 CPU 2 1/27/21 17:46:55.383] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1117915_S01_M2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 10796 CPU 3 1/27/21 17:54:48.632] Done ap prb 0 t 0
+[Thd 10796 CPU 4 1/27/21 17:54:48.656] 
+[Thd 4224 CPU 5 1/28/21 19:22:35.469] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1117915_S02_M2_CB -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 4224 CPU 7 1/28/21 19:31:44.705] Done ap prb 0 t 0
+[Thd 4224 CPU 7 1/28/21 19:40:55.839] Done ap prb 1 t 0
+[Thd 4224 CPU 5 1/28/21 19:40:55.857] 
+[Thd 3888 CPU 5 1/29/21 19:21:43.056] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1117915_S03_M2_CB -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 3888 CPU 0 1/29/21 19:44:23.588] Done ap prb 0 t 0
+[Thd 3888 CPU 2 1/29/21 19:54:02.409] Done ap prb 1 t 0
+[Thd 3888 CPU 5 1/29/21 19:54:02.429] 
+[Thd 9824 CPU 7 1/30/21 14:24:00.172] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1116762_S01_V1_v2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 9824 CPU 7 1/30/21 14:31:14.343] Done ap prb 0 t 0
+[Thd 9824 CPU 7 1/30/21 14:31:14.363] 
+[Thd 9488 CPU 0 1/31/21 20:29:37.220] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1117915_S04_CB_M2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 9488 CPU 0 1/31/21 20:29:37.220] Meta file not found 'D:/SGL_DATA/AK_1117915_S04_CB_M2_g0/AK_1117915_S04_CB_M2_g0_imec0/AK_1117915_S04_CB_M2_g0_t0.imec0.ap.meta'.
+[Thd 9488 CPU 0 1/31/21 20:29:37.220] 
+[Thd 9516 CPU 1 2/02/21 19:02:26.325] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1117915_S04_CB_M2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 9516 CPU 1 2/02/21 19:02:26.325] Meta file not found 'D:/SGL_DATA/AK_1117915_S04_CB_M2_g0/AK_1117915_S04_CB_M2_g0_imec0/AK_1117915_S04_CB_M2_g0_t0.imec0.ap.meta'.
+[Thd 9516 CPU 1 2/02/21 19:02:26.325] 
+[Thd 10940 CPU 5 2/02/21 19:04:49.021] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1117915_S04_CB_M2 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 10940 CPU 5 2/02/21 19:04:49.021] Meta file not found 'D:/SGL_DATA/AK_1117915_S04_CB_M2_g0/AK_1117915_S04_CB_M2_g0_imec0/AK_1117915_S04_CB_M2_g0_t0.imec0.ap.meta'.
+[Thd 10940 CPU 6 2/02/21 19:04:49.021] 
+[Thd 1300 CPU 0 2/02/21 19:06:18.763] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1117915_S04_CB_M2 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 1300 CPU 0 2/02/21 19:06:18.763] Meta file not found 'D:/SGL_DATA/AK_1117915_S04_CB_M2_g0/AK_1117915_S04_CB_M2_g0_imec0/AK_1117915_S04_CB_M2_g0_t0.imec0.ap.meta'.
+[Thd 1300 CPU 0 2/02/21 19:06:18.763] 
+[Thd 1392 CPU 4 2/02/21 19:07:22.159] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1117915_S04_CB_M2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 1392 CPU 3 2/02/21 19:15:57.854] Done ap prb 0 t 0
+[Thd 1392 CPU 4 2/02/21 19:15:57.874] 
+[Thd 10980 CPU 6 2/02/21 20:34:32.354] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1117915_S04_CB_M2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 10980 CPU 7 2/02/21 20:34:32.354] Meta file not found 'D:/SGL_DATA/AK_1117915_S04_CB_M2_g0/AK_1117915_S04_CB_M2_g0_imec0/AK_1117915_S04_CB_M2_g0_t0.imec0.ap.meta'.
+[Thd 10980 CPU 6 2/02/21 20:34:32.364] 
+[Thd 6556 CPU 0 2/12/21 19:38:23.326] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_004_e1_M2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 6556 CPU 0 2/12/21 19:48:16.243] Done ap prb 0 t 0
+[Thd 6556 CPU 4 2/12/21 19:48:16.383] 
+[Thd 8860 CPU 4 2/13/21 19:35:01.678] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_004_e2_M2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 8860 CPU 1 2/13/21 19:47:55.485] Done ap prb 0 t 0
+[Thd 8860 CPU 4 2/13/21 19:47:55.505] 
+[Thd 8008 CPU 6 2/14/21 18:32:42.599] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_004_e3_M2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 8008 CPU 3 2/14/21 18:43:01.835] Done ap prb 0 t 0
+[Thd 8008 CPU 6 2/14/21 18:43:01.855] 
+[Thd 10684 CPU 7 2/15/21 21:32:03.817] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_004_e4_M2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 10684 CPU 1 2/15/21 21:49:16.326] Done ap prb 0 t 0
+[Thd 10684 CPU 5 2/15/21 21:49:16.346] 
+[Thd 10024 CPU 2 2/16/21 18:17:37.310] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_004_e5_M2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 10024 CPU 2 2/16/21 18:17:37.310] Meta file not found 'D:/SGL_DATA/MH_004_e5_M2_g0/MH_004_e5_M2_g0_imec0/MH_004_e5_M2_g0_t0.imec0.ap.meta'.
+[Thd 10024 CPU 2 2/16/21 18:17:37.310] 
+[Thd 8880 CPU 5 2/17/21 19:10:14.494] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_004_e5_M2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 8880 CPU 5 2/17/21 19:10:14.494] Meta file not found 'D:/SGL_DATA/MH_004_e5_M2_g0/MH_004_e5_M2_g0_imec0/MH_004_e5_M2_g0_t0.imec0.ap.meta'.
+[Thd 8880 CPU 6 2/17/21 19:10:14.494] 
+[Thd 7172 CPU 4 2/19/21 00:24:31.115] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_004_e6_M2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 7172 CPU 1 2/19/21 00:46:59.905] Done ap prb 0 t 0
+[Thd 7172 CPU 4 2/19/21 00:46:59.925] 
+[Thd 6604 CPU 5 2/19/21 20:54:28.953] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_004_e7_M2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 6604 CPU 0 2/19/21 21:12:42.581] Done ap prb 0 t 0
+[Thd 6604 CPU 0 2/19/21 21:12:42.601] 
+[Thd 2984 CPU 1 2/20/21 19:04:22.112] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_004_e8_M2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 2984 CPU 1 2/20/21 19:15:50.704] Done ap prb 0 t 0
+[Thd 2984 CPU 2 2/20/21 19:15:50.814] 
+[Thd 9748 CPU 4 2/22/21 22:54:15.369] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_004_e9_M2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 9748 CPU 4 2/22/21 23:27:31.708] Done ap prb 0 t 0
+[Thd 9748 CPU 5 2/22/21 23:27:31.728] 
+[Thd 12116 CPU 4 2/24/21 21:53:34.102] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_004_e5_M2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 12116 CPU 4 2/24/21 21:53:34.102] Meta file not found 'D:/SGL_DATA/MH_004_e5_M2_g0/MH_004_e5_M2_g0_imec0/MH_004_e5_M2_g0_t0.imec0.ap.meta'.
+[Thd 12116 CPU 6 2/24/21 21:53:34.102] 
+[Thd 5128 CPU 0 2/24/21 23:31:27.370] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_004_e5_M2 -g=1 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 5128 CPU 2 2/24/21 23:38:32.456] Done ap prb 0 t 0
+[Thd 5128 CPU 0 2/24/21 23:38:32.486] 
+[Thd 3864 CPU 6 2/28/21 18:28:54.114] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1118270_optobeh2_VIS2MOs_10mW_S01_M2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 3864 CPU 6 2/28/21 18:38:39.904] Done ap prb 0 t 0
+[Thd 3864 CPU 6 2/28/21 18:38:39.944] 
+[Thd 13168 CPU 1 3/01/21 15:10:05.596] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1118270_optobeh2_VIS2MOs_10mW_S02_M2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 13168 CPU 3 3/01/21 15:19:26.738] Done ap prb 0 t 0
+[Thd 13168 CPU 1 3/01/21 15:19:26.756] 
+[Thd 10664 CPU 3 3/01/21 18:19:19.086] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1117910_S01_CB -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 10664 CPU 3 3/01/21 18:27:01.767] Done ap prb 0 t 0
+[Thd 10664 CPU 3 3/01/21 18:27:01.787] 
+[Thd 12304 CPU 3 3/02/21 14:31:16.444] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1118270_optobeh2_VIS2MOs_10mW_S03_M2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 12304 CPU 3 3/02/21 14:39:50.931] Done ap prb 0 t 0
+[Thd 12304 CPU 5 3/02/21 14:39:50.950] 
+[Thd 10660 CPU 0 3/02/21 19:43:30.412] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1117910_S02_CB_M2 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 10660 CPU 3 3/02/21 19:53:04.869] Done ap prb 0 t 0
+[Thd 10660 CPU 0 3/02/21 20:02:38.676] Done ap prb 1 t 0
+[Thd 10660 CPU 2 3/02/21 20:02:38.697] 
+[Thd 13016 CPU 4 3/03/21 15:05:02.731] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1118270_optobeh2_VIS2MOs_10mW_S04_M2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 13016 CPU 0 3/03/21 15:13:56.148] Done ap prb 0 t 0
+[Thd 13016 CPU 4 3/03/21 15:13:56.165] 
+[Thd 7644 CPU 6 3/03/21 19:24:52.230] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1117910_S03_CB_M2 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 7644 CPU 6 3/03/21 19:34:25.589] Done ap prb 0 t 0
+[Thd 7644 CPU 6 3/03/21 19:43:55.028] Done ap prb 1 t 0
+[Thd 7644 CPU 6 3/03/21 19:43:55.051] 
+[Thd 11944 CPU 1 3/04/21 19:25:17.509] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1117910_S04_CB_M2 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 11944 CPU 7 3/04/21 19:34:53.425] Done ap prb 0 t 0
+[Thd 11944 CPU 1 3/04/21 19:44:29.351] Done ap prb 1 t 0
+[Thd 11944 CPU 1 3/04/21 19:44:29.395] 
+[Thd 12796 CPU 6 3/05/21 19:14:18.343] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1117910_S05_CB -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 12796 CPU 1 3/05/21 19:24:41.237] Done ap prb 0 t 0
+[Thd 12796 CPU 6 3/05/21 19:24:41.257] 
+[Thd 13128 CPU 2 3/06/21 19:12:51.737] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1117910_S06_CB_M2 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 13128 CPU 7 3/06/21 19:22:51.405] Done ap prb 0 t 0
+[Thd 13128 CPU 7 3/06/21 19:34:35.821] Done ap prb 1 t 0
+[Thd 13128 CPU 2 3/06/21 19:34:35.841] 
+[Thd 12416 CPU 7 3/07/21 19:42:12.750] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1117910_S07_CB_M2 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 12416 CPU 1 3/07/21 19:52:35.909] Done ap prb 0 t 0
+[Thd 12416 CPU 0 3/07/21 20:02:49.696] Done ap prb 1 t 0
+[Thd 12416 CPU 1 3/07/21 20:02:49.786] 
+[Thd 11200 CPU 5 3/08/21 18:57:02.046] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1117910_S08_CB_M2 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 11200 CPU 2 3/08/21 19:04:51.681] Done ap prb 0 t 0
+[Thd 11200 CPU 6 3/08/21 19:12:36.921] Done ap prb 1 t 0
+[Thd 11200 CPU 6 3/08/21 19:12:37.069] 
+[Thd 1776 CPU 2 3/09/21 19:13:19.876] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1117910_S09_CB_M2 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 1776 CPU 2 3/09/21 19:30:02.734] Done ap prb 0 t 0
+[Thd 1776 CPU 3 3/09/21 19:37:53.464] Done ap prb 1 t 0
+[Thd 1776 CPU 3 3/09/21 19:37:53.483] 
+[Thd 11408 CPU 7 3/10/21 19:26:46.274] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1117910_S10_CB -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 11408 CPU 2 3/10/21 19:37:23.960] Done ap prb 0 t 0
+[Thd 11408 CPU 2 3/10/21 19:37:23.980] 
+[Thd 3220 CPU 0 3/13/21 17:06:02.443] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_001_e1 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 3220 CPU 3 3/13/21 17:07:21.625] Done ap prb 0 t 0
+[Thd 3220 CPU 3 3/13/21 17:08:40.777] Done ap prb 1 t 0
+[Thd 3220 CPU 0 3/13/21 17:08:40.797] 
+[Thd 9460 CPU 5 3/14/21 18:00:30.027] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_001_e2 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 9460 CPU 1 3/14/21 18:05:43.044] Done ap prb 0 t 0
+[Thd 9460 CPU 1 3/14/21 18:10:56.098] Done ap prb 1 t 0
+[Thd 9460 CPU 5 3/14/21 18:10:56.118] 
+[Thd 9000 CPU 0 3/15/21 18:09:26.878] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_001_e3 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 9000 CPU 3 3/15/21 18:16:53.247] Done ap prb 0 t 0
+[Thd 9000 CPU 3 3/15/21 18:24:19.652] Done ap prb 1 t 0
+[Thd 9000 CPU 1 3/15/21 18:24:19.682] 
+[Thd 9172 CPU 7 3/16/21 20:44:03.676] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_001_e4 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 9172 CPU 2 3/16/21 20:52:21.614] Done ap prb 0 t 0
+[Thd 9172 CPU 2 3/16/21 21:00:42.666] Done ap prb 1 t 0
+[Thd 9172 CPU 2 3/16/21 21:00:42.696] 
+[Thd 9460 CPU 1 3/18/21 20:05:12.159] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_001_e5 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 9460 CPU 1 3/18/21 20:14:24.573] Done ap prb 0 t 0
+[Thd 9460 CPU 3 3/18/21 20:23:36.560] Done ap prb 1 t 0
+[Thd 9460 CPU 2 3/18/21 20:23:36.700] 
+[Thd 11808 CPU 0 3/19/21 18:38:54.836] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_001_e6 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 11808 CPU 0 3/19/21 18:41:32.663] Write failed (error 2) for file 'MH_001_e6_g0_t0.imec0.ap.bin'.
+[Thd 11808 CPU 0 3/19/21 18:41:32.713] Write failed (error 2) for file 'MH_001_e6_g0_t0.imec1.ap.bin'.
+[Thd 11808 CPU 0 3/19/21 18:41:32.723] 
+[Thd 11416 CPU 0 3/20/21 18:49:28.490] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_001_e7 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 11416 CPU 0 3/20/21 18:49:28.517] Write failed (error 2) for file 'MH_001_e7_g0_t0.imec0.ap.bin'.
+[Thd 11416 CPU 0 3/20/21 18:49:28.523] 
+[Thd 628 CPU 5 3/22/21 19:35:31.023] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_001_e8 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 628 CPU 5 3/22/21 19:43:51.796] Done ap prb 0 t 0
+[Thd 628 CPU 5 3/22/21 19:52:12.884] Done ap prb 1 t 0
+[Thd 628 CPU 5 3/22/21 19:52:12.906] 
+[Thd 12800 CPU 2 3/24/21 22:15:22.180] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_006_e1 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 12800 CPU 6 3/24/21 22:25:48.212] Done ap prb 0 t 0
+[Thd 12800 CPU 2 3/24/21 22:25:48.232] 
+[Thd 2132 CPU 6 3/25/21 22:34:09.371] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_006_e2 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 2132 CPU 0 3/25/21 22:41:44.138] Done ap prb 0 t 0
+[Thd 2132 CPU 1 3/25/21 22:49:18.468] Done ap prb 1 t 0
+[Thd 2132 CPU 0 3/25/21 22:49:18.628] 
+[Thd 7876 CPU 0 3/26/21 21:49:55.199] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_006_e3 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 7876 CPU 0 3/26/21 22:03:06.665] Done ap prb 0 t 0
+[Thd 7876 CPU 7 3/26/21 22:16:22.205] Done ap prb 1 t 0
+[Thd 7876 CPU 0 3/26/21 22:16:22.225] 
+[Thd 8720 CPU 0 3/27/21 15:03:09.052] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1118268_optobeh3_VIS2MOs_S02 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 8720 CPU 1 3/27/21 15:14:10.612] Done ap prb 0 t 0
+[Thd 8720 CPU 3 3/27/21 15:14:10.632] 
+[Thd 2504 CPU 7 3/27/21 23:42:00.746] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_006_e4 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 2504 CPU 7 3/27/21 23:54:42.235] Done ap prb 0 t 0
+[Thd 2504 CPU 2 3/28/21 00:07:24.108] Done ap prb 1 t 0
+[Thd 2504 CPU 2 3/28/21 00:07:24.248] 
+[Thd 10212 CPU 0 3/28/21 15:58:10.590] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1118268_optobeh3_VIS2MOs_10mW_M2_S03_part2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 10212 CPU 0 3/28/21 16:07:36.662] Done ap prb 0 t 0
+[Thd 10212 CPU 0 3/28/21 16:07:36.683] 
+[Thd 11524 CPU 0 3/28/21 20:04:03.780] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_006_e5 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 11524 CPU 1 3/28/21 20:13:07.534] Done ap prb 0 t 0
+[Thd 11524 CPU 7 3/28/21 20:22:11.191] Done ap prb 1 t 0
+[Thd 11524 CPU 0 3/28/21 20:22:11.211] 
+[Thd 10344 CPU 7 3/29/21 14:32:56.631] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1118268_optobeh3_VIS2MOs_10mW_M2_S04 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 10344 CPU 5 3/29/21 14:43:14.786] Done ap prb 0 t 0
+[Thd 10344 CPU 7 3/29/21 14:43:14.796] 
+[Thd 8916 CPU 1 3/29/21 15:40:48.527] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_006_e2 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 8916 CPU 1 3/29/21 15:40:48.527] Meta file not found 'D:/SGL_DATA/MH_006_e2_g0/MH_006_e2_g0_imec0/MH_006_e2_g0_t0.imec0.ap.meta'.
+[Thd 8916 CPU 1 3/29/21 15:40:48.527] 
+[Thd 6652 CPU 2 3/29/21 21:25:22.818] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_006_e6 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 6652 CPU 2 3/29/21 21:30:08.513] Write failed (error 2) for file 'MH_006_e6_g0_t0.imec0.ap.bin'.
+[Thd 6652 CPU 2 3/29/21 21:46:38.245] Write failed (error 2) for file 'MH_006_e6_g0_t0.imec1.ap.bin'.
+[Thd 6652 CPU 3 3/29/21 21:46:38.255] 
+[Thd 5184 CPU 4 3/31/21 02:00:39.929] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_006_e7 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 5184 CPU 1 3/31/21 02:20:55.104] Done ap prb 0 t 0
+[Thd 5184 CPU 4 3/31/21 02:41:09.985] Done ap prb 1 t 0
+[Thd 5184 CPU 4 3/31/21 02:41:10.016] 
+[Thd 11552 CPU 5 3/31/21 15:59:43.173] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML1118268_optobeh3_VIS2MOs_10mW_M2_S05 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 11552 CPU 1 3/31/21 16:10:29.959] Done ap prb 0 t 0
+[Thd 11552 CPU 7 3/31/21 16:10:29.978] 
+[Thd 32 CPU 4 3/31/21 18:30:49.666] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1118268_optobeh3_VIS2MOs_10mW_M2_S06 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 32 CPU 1 3/31/21 18:41:16.508] Done ap prb 0 t 0
+[Thd 32 CPU 4 3/31/21 18:41:16.528] 
+[Thd 5672 CPU 3 4/01/21 15:19:28.645] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1118268_optobeh3_VIS2MOs_10mW_M2_S07 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 5672 CPU 3 4/01/21 15:30:23.345] Done ap prb 0 t 0
+[Thd 5672 CPU 3 4/01/21 15:30:23.362] 
+[Thd 10780 CPU 0 4/02/21 00:31:07.958] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_006_e8 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 10780 CPU 2 4/02/21 00:46:02.760] Done ap prb 0 t 0
+[Thd 10780 CPU 5 4/02/21 01:00:57.648] Done ap prb 1 t 0
+[Thd 10780 CPU 0 4/02/21 01:00:57.778] 
+[Thd 5036 CPU 5 4/03/21 02:04:51.312] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_006_e9 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 5036 CPU 6 4/03/21 02:23:43.735] Done ap prb 0 t 0
+[Thd 5036 CPU 6 4/03/21 02:39:40.234] Write failed (error 2) for file 'MH_006_e9_g0_t0.imec1.ap.bin'.
+[Thd 5036 CPU 6 4/03/21 02:39:40.254] 
+[Thd 6908 CPU 1 4/05/21 14:27:21.152] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_006_e6 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 6908 CPU 1 4/05/21 14:27:21.152] Meta file not found 'D:/SGL_DATA/MH_006_e6_g0/MH_006_e6_g0_imec0/MH_006_e6_g0_t0.imec0.ap.meta'.
+[Thd 6908 CPU 1 4/05/21 14:27:21.152] 
+[Thd 5848 CPU 1 4/05/21 18:01:34.109] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1119541_S01_CB -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 5848 CPU 3 4/05/21 18:08:48.282] Done ap prb 0 t 0
+[Thd 5848 CPU 1 4/05/21 18:08:48.292] 
+[Thd 9024 CPU 4 4/06/21 19:18:18.558] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1119541_S02_M1_CB -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 9024 CPU 4 4/06/21 19:27:59.633] Done ap prb 0 t 0
+[Thd 9024 CPU 2 4/06/21 19:37:42.162] Done ap prb 1 t 0
+[Thd 9024 CPU 4 4/06/21 19:37:42.172] 
+[Thd 11464 CPU 3 4/07/21 20:04:02.081] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1119541_S03_GPe_CB -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 11464 CPU 2 4/07/21 20:14:37.059] Done ap prb 0 t 0
+[Thd 11464 CPU 2 4/07/21 20:25:12.666] Done ap prb 1 t 0
+[Thd 11464 CPU 3 4/07/21 20:25:12.736] 
+[Thd 5468 CPU 3 4/08/21 19:08:58.004] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1119541_S04_GPe_CB -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 5468 CPU 3 4/08/21 19:19:29.723] Done ap prb 0 t 0
+[Thd 5468 CPU 5 4/08/21 19:29:24.851] Done ap prb 1 t 0
+[Thd 5468 CPU 3 4/08/21 19:29:24.861] 
+[Thd 11884 CPU 1 4/09/21 14:22:37.809] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1078733_S01 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 11884 CPU 2 4/09/21 14:34:57.455] Done ap prb 0 t 0
+[Thd 11884 CPU 2 4/09/21 14:34:57.455] 
+[Thd 5408 CPU 5 4/09/21 19:36:59.496] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1119541_S05_Th_CB -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 5408 CPU 7 4/09/21 19:47:23.360] Done ap prb 0 t 0
+[Thd 5408 CPU 6 4/09/21 19:57:45.997] Done ap prb 1 t 0
+[Thd 5408 CPU 5 4/09/21 19:57:45.997] 
+[Thd 12852 CPU 7 4/10/21 14:57:59.536] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1078733_S02 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 12852 CPU 7 4/10/21 15:07:43.128] Done ap prb 0 t 0
+[Thd 12852 CPU 5 4/10/21 15:07:43.138] 
+[Thd 2364 CPU 1 4/10/21 20:04:49.920] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1119541_S06_GPe_CB -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 2364 CPU 5 4/10/21 20:14:30.714] Done ap prb 0 t 0
+[Thd 2364 CPU 1 4/10/21 20:24:10.809] Done ap prb 1 t 0
+[Thd 2364 CPU 1 4/10/21 20:24:10.819] 
+[Thd 8808 CPU 6 4/11/21 19:49:55.931] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1119541_S07_M1_CB -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 8808 CPU 3 4/11/21 20:03:53.498] Done ap prb 0 t 0
+[Thd 8808 CPU 6 4/11/21 20:14:59.455] Done ap prb 1 t 0
+[Thd 8808 CPU 6 4/11/21 20:14:59.465] 
+[Thd 10012 CPU 0 4/12/21 14:31:50.409] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1078733_S03 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 10012 CPU 0 4/12/21 14:40:18.167] Done ap prb 0 t 0
+[Thd 10012 CPU 0 4/12/21 14:40:18.170] 
+[Thd 13940 CPU 3 4/12/21 19:58:57.460] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1119541_S08_M1 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 13940 CPU 2 4/12/21 20:08:40.793] Done ap prb 0 t 0
+[Thd 13940 CPU 3 4/12/21 20:08:40.793] 
+[Thd 11896 CPU 4 4/13/21 14:36:36.313] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1078733_S04 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 11896 CPU 3 4/13/21 14:44:29.617] Done ap prb 0 t 0
+[Thd 11896 CPU 4 4/13/21 14:44:29.627] 
+[Thd 4640 CPU 4 4/13/21 19:26:48.896] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1119541_S09_M1_CB -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 4640 CPU 6 4/13/21 19:41:48.810] Done ap prb 0 t 0
+[Thd 4640 CPU 3 4/13/21 19:52:35.966] Done ap prb 1 t 0
+[Thd 4640 CPU 4 4/13/21 19:52:35.976] 
+[Thd 12416 CPU 4 4/14/21 19:53:16.220] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1119541_S10_M1_CB -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 12416 CPU 4 4/14/21 20:04:37.012] Done ap prb 0 t 0
+[Thd 12416 CPU 4 4/14/21 20:13:00.161] Done ap prb 1 t 0
+[Thd 12416 CPU 4 4/14/21 20:13:00.161] 
+[Thd 13280 CPU 6 4/29/21 18:21:53.847] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1119408_thal_S01 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 13280 CPU 2 4/29/21 18:29:20.575] Done ap prb 0 t 0
+[Thd 13280 CPU 2 4/29/21 18:29:20.585] 
+[Thd 3676 CPU 6 4/30/21 20:11:27.869] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1103204_V1_S01 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 3676 CPU 3 4/30/21 20:24:55.231] Done ap prb 0 t 0
+[Thd 3676 CPU 6 4/30/21 20:24:55.231] 
+[Thd 808 CPU 1 5/01/21 14:49:40.869] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1119408_thal_S03 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 808 CPU 0 5/01/21 14:58:13.468] Done ap prb 0 t 0
+[Thd 808 CPU 1 5/01/21 14:58:13.478] 
+[Thd 4388 CPU 0 5/01/21 18:53:16.156] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1103204_S02_V1 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 4388 CPU 0 5/01/21 19:05:47.642] Done ap prb 0 t 0
+[Thd 4388 CPU 0 5/01/21 19:05:47.642] 
+[Thd 11660 CPU 3 5/02/21 11:43:12.672] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1078733_S05 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 11660 CPU 3 5/02/21 11:53:18.614] Done ap prb 0 t 0
+[Thd 11660 CPU 4 5/02/21 11:53:18.619] 
+[Thd 13408 CPU 7 5/02/21 14:40:14.342] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1119408_RL_S04_v2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 13408 CPU 3 5/02/21 14:48:57.852] Done ap prb 0 t 0
+[Thd 13408 CPU 7 5/02/21 14:48:57.852] 
+[Thd 10548 CPU 5 5/02/21 19:30:11.406] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1103204_S03_CB_V1 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 10548 CPU 6 5/02/21 19:55:37.549] Done ap prb 0 t 0
+[Thd 10548 CPU 0 5/02/21 20:06:02.776] Done ap prb 1 t 0
+[Thd 10548 CPU 5 5/02/21 20:06:02.776] 
+[Thd 10300 CPU 1 5/03/21 11:43:08.895] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1119408_thal_S01 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 10300 CPU 1 5/03/21 11:43:08.896] Meta file not found 'D:/SGL_DATA/ML_1119408_thal_S01_g0/ML_1119408_thal_S01_g0_imec0/ML_1119408_thal_S01_g0_t0.imec0.ap.meta'.
+[Thd 10300 CPU 5 5/03/21 11:43:08.897] 
+[Thd 9540 CPU 7 5/03/21 14:14:33.554] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1119408_thal_S05 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 9540 CPU 7 5/03/21 14:22:49.003] Done ap prb 0 t 0
+[Thd 9540 CPU 7 5/03/21 14:22:49.013] 
+[Thd 13872 CPU 5 5/03/21 19:31:17.473] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1103204_S04_Hyp_V1 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 13872 CPU 4 5/03/21 19:42:17.040] Done ap prb 0 t 0
+[Thd 13872 CPU 6 5/03/21 19:53:17.213] Done ap prb 1 t 0
+[Thd 13872 CPU 4 5/03/21 19:53:17.217] 
+[Thd 5712 CPU 2 5/03/21 22:24:41.910] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_002_e1 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 5712 CPU 3 5/03/21 22:30:15.597] Done ap prb 0 t 0
+[Thd 5712 CPU 7 5/03/21 22:35:49.114] Done ap prb 1 t 0
+[Thd 5712 CPU 2 5/03/21 22:35:49.114] 
+[Thd 1372 CPU 2 5/04/21 12:38:51.210] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1119408_thal_S02 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 1372 CPU 3 5/04/21 12:48:29.929] Done ap prb 0 t 0
+[Thd 1372 CPU 2 5/04/21 12:48:29.991] 
+[Thd 10100 CPU 2 5/04/21 14:57:37.823] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1119408_thal_S06 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 10100 CPU 0 5/04/21 15:05:35.805] Done ap prb 0 t 0
+[Thd 10100 CPU 2 5/04/21 15:05:35.815] 
+[Thd 2136 CPU 6 5/04/21 20:00:35.513] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1103204_S05_SNr_RS -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 2136 CPU 6 5/04/21 20:12:16.896] Done ap prb 0 t 0
+[Thd 2136 CPU 6 5/04/21 20:23:58.229] Done ap prb 1 t 0
+[Thd 2136 CPU 6 5/04/21 20:23:58.293] 
+[Thd 9472 CPU 4 5/04/21 23:31:50.370] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_002_e2 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 9472 CPU 2 5/04/21 23:40:34.331] Done ap prb 0 t 0
+[Thd 9472 CPU 2 5/04/21 23:49:18.425] Done ap prb 1 t 0
+[Thd 9472 CPU 4 5/04/21 23:49:18.425] 
+[Thd 7244 CPU 0 5/05/21 14:42:24.268] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1119408_thal_S07_v2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 7244 CPU 2 5/05/21 14:51:14.983] Done ap prb 0 t 0
+[Thd 7244 CPU 0 5/05/21 14:51:15.043] 
+[Thd 12972 CPU 6 5/05/21 19:48:12.279] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1103204_S06_RS_latV1 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 12972 CPU 6 5/05/21 20:00:28.953] Done ap prb 0 t 0
+[Thd 12972 CPU 7 5/05/21 20:11:34.032] Done ap prb 1 t 0
+[Thd 12972 CPU 6 5/05/21 20:11:34.037] 
+[Thd 13640 CPU 1 5/05/21 22:49:13.243] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_002_e3 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 13640 CPU 7 5/05/21 22:55:27.254] Done ap prb 0 t 0
+[Thd 13640 CPU 1 5/05/21 23:01:41.222] Done ap prb 1 t 0
+[Thd 13640 CPU 1 5/05/21 23:01:41.232] 
+[Thd 12332 CPU 1 5/06/21 16:04:38.956] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1119408_thal_S08 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 12332 CPU 2 5/06/21 16:18:39.991] Done ap prb 0 t 0
+[Thd 12332 CPU 2 5/06/21 16:18:40.001] 
+[Thd 3004 CPU 5 5/06/21 21:11:55.942] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1103204_S07_STN_Sub -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 3004 CPU 3 5/06/21 21:21:43.358] Done ap prb 0 t 0
+[Thd 3004 CPU 5 5/06/21 21:31:30.491] Done ap prb 1 t 0
+[Thd 3004 CPU 5 5/06/21 21:31:30.501] 
+[Thd 10868 CPU 1 5/07/21 15:05:26.747] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1119408_SNr_GPe_S09 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 10868 CPU 3 5/07/21 15:14:41.802] Done ap prb 0 t 0
+[Thd 10868 CPU 1 5/07/21 15:23:56.097] Done ap prb 1 t 0
+[Thd 10868 CPU 1 5/07/21 15:23:56.102] 
+[Thd 14496 CPU 4 5/07/21 19:38:37.981] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1103204_S08_Sub -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 14496 CPU 1 5/07/21 19:49:51.580] Done ap prb 0 t 0
+[Thd 14496 CPU 4 5/07/21 19:49:51.580] 
+[Thd 14028 CPU 7 5/07/21 23:01:06.089] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_002_e4 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 14028 CPU 0 5/07/21 23:07:39.220] Done ap prb 0 t 0
+[Thd 14028 CPU 3 5/07/21 23:14:11.972] Done ap prb 1 t 0
+[Thd 14028 CPU 1 5/07/21 23:14:11.982] 
+[Thd 8672 CPU 2 5/08/21 17:39:14.259] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1119408_RS_S10 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 8672 CPU 0 5/08/21 17:54:42.531] Done ap prb 0 t 0
+[Thd 8672 CPU 2 5/08/21 17:54:42.541] 
+[Thd 10268 CPU 5 5/08/21 22:15:38.737] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_002_e5 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 10268 CPU 3 5/08/21 22:24:53.136] Done ap prb 0 t 0
+[Thd 10268 CPU 5 5/08/21 22:34:07.596] Done ap prb 1 t 0
+[Thd 10268 CPU 5 5/08/21 22:34:07.596] 
+[Thd 3992 CPU 2 5/09/21 16:35:37.363] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1119408_MD_S11 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 3992 CPU 2 5/09/21 16:43:57.355] Write failed (error 2) for file 'ML_1119408_MD_S11_g0_t0.imec0.ap.bin'.
+[Thd 3992 CPU 2 5/09/21 16:43:57.355] 
+[Thd 11152 CPU 0 5/10/21 15:45:57.018] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1119408_RE_S12 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 11152 CPU 7 5/10/21 15:45:57.058] Write failed (error 2) for file 'ML_1119408_RE_S12_g0_t0.imec0.ap.bin'.
+[Thd 11152 CPU 7 5/10/21 15:45:57.058] 
+[Thd 15204 CPU 4 5/10/21 18:39:02.440] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_002_e6 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 15204 CPU 4 5/10/21 18:42:59.464] Done ap prb 0 t 0
+[Thd 15204 CPU 4 5/10/21 18:42:59.464] 
+[Thd 10100 CPU 5 5/11/21 15:12:17.693] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1119408_Str_S13 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 10100 CPU 3 5/11/21 15:21:50.859] Done ap prb 0 t 0
+[Thd 10100 CPU 6 5/11/21 15:21:50.859] 
+[Thd 3080 CPU 0 5/17/21 18:54:28.158] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1108393_S01_V1 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 3080 CPU 0 5/17/21 19:04:50.548] Done ap prb 0 t 0
+[Thd 3080 CPU 0 5/17/21 19:04:50.558] 
+[Thd 7548 CPU 5 5/18/21 19:29:56.302] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1108393_S02_PAG_V1 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 7548 CPU 5 5/18/21 19:39:55.481] Done ap prb 0 t 0
+[Thd 7548 CPU 4 5/18/21 19:49:53.414] Done ap prb 1 t 0
+[Thd 7548 CPU 5 5/18/21 19:49:53.414] 
+[Thd 11736 CPU 6 5/19/21 19:11:03.112] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1108393_S03_SNr_RS -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 11736 CPU 7 5/19/21 19:20:55.716] Done ap prb 0 t 0
+[Thd 11736 CPU 4 5/19/21 19:30:47.053] Done ap prb 1 t 0
+[Thd 11736 CPU 6 5/19/21 19:30:47.053] 
+[Thd 7200 CPU 5 5/20/21 19:25:42.763] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1108393_S04_RL_SC -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 7200 CPU 4 5/20/21 19:36:46.346] Done ap prb 0 t 0
+[Thd 7200 CPU 7 5/20/21 19:47:50.104] Done ap prb 1 t 0
+[Thd 7200 CPU 5 5/20/21 19:47:50.109] 
+[Thd 4348 CPU 5 5/20/21 21:46:53.918] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1074894_M2_S01 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 4348 CPU 5 5/20/21 21:55:45.487] Done ap prb 0 t 0
+[Thd 4348 CPU 7 5/20/21 21:55:45.497] 
+[Thd 924 CPU 5 5/21/21 14:45:32.064] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1074894_M2_S01 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 924 CPU 3 5/21/21 14:54:28.441] Done ap prb 0 t 0
+[Thd 924 CPU 3 5/21/21 14:54:28.441] 
+[Thd 12612 CPU 4 5/21/21 19:17:45.139] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1108393_S05_SNr_V1 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 12612 CPU 4 5/21/21 19:17:45.141] Meta file not found 'D:/SGL_DATA/AK_1108393_S05_SNr_V1_g0/AK_1108393_S05_SNr_V1_g0_imec0/AK_1108393_S05_SNr_V1_g0_t0.imec0.ap.meta'.
+[Thd 12612 CPU 4 5/21/21 19:17:45.141] 
+[Thd 13092 CPU 1 5/21/21 21:03:51.464] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1108393_S05_SNr_V1 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 13092 CPU 1 5/21/21 21:03:51.464] Meta file not found 'D:/SGL_DATA/AK_1108393_S05_SNr_V1_g0/AK_1108393_S05_SNr_V1_g0_imec0/AK_1108393_S05_SNr_V1_g0_t0.imec0.ap.meta'.
+[Thd 13092 CPU 1 5/21/21 21:03:51.464] 
+[Thd 628 CPU 6 5/21/21 21:06:39.082] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1108393_S05_SNr_V1 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 628 CPU 6 5/21/21 21:06:39.082] Meta file not found 'D:/SGL_DATA/AK_1108393_S05_SNr_V1_g0/AK_1108393_S05_SNr_V1_g0_imec0/AK_1108393_S05_SNr_V1_g0_t0.imec0.ap.meta'.
+[Thd 628 CPU 6 5/21/21 21:06:39.082] 
+[Thd 11432 CPU 2 5/21/21 21:11:23.602] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1108393_S05_SNr_V1 -g=1 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 11432 CPU 0 5/21/21 21:20:36.995] Done ap prb 0 t 0
+[Thd 11432 CPU 3 5/21/21 21:29:47.561] Done ap prb 1 t 0
+[Thd 11432 CPU 2 5/21/21 21:29:47.561] 
+[Thd 11916 CPU 7 5/22/21 19:41:09.505] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1108393_S06_MRN_V1 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 11916 CPU 7 5/22/21 19:51:09.924] Done ap prb 0 t 0
+[Thd 11916 CPU 2 5/22/21 20:01:08.881] Done ap prb 1 t 0
+[Thd 11916 CPU 7 5/22/21 20:01:08.881] 
+[Thd 2444 CPU 0 5/23/21 20:08:46.161] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1108393_S07_PEG_V1 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 2444 CPU 1 5/23/21 20:20:17.888] Done ap prb 0 t 0
+[Thd 2444 CPU 1 5/23/21 20:31:47.282] Done ap prb 1 t 0
+[Thd 2444 CPU 0 5/23/21 20:31:47.282] 
+[Thd 12504 CPU 3 5/24/21 13:13:40.251] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_007_e1 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 12504 CPU 1 5/24/21 13:19:46.174] Done ap prb 0 t 0
+[Thd 12504 CPU 3 5/24/21 13:25:51.982] Done ap prb 1 t 0
+[Thd 12504 CPU 2 5/24/21 13:25:51.992] 
+[Thd 7332 CPU 6 5/24/21 19:58:05.848] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1108393_S08 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 7332 CPU 2 5/24/21 20:08:40.506] Done ap prb 0 t 0
+[Thd 7332 CPU 3 5/24/21 20:19:14.982] Done ap prb 1 t 0
+[Thd 7332 CPU 6 5/24/21 20:19:14.992] 
+[Thd 3008 CPU 7 5/25/21 13:31:43.970] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_007_e2 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 3008 CPU 7 5/25/21 13:43:14.668] Done ap prb 0 t 0
+[Thd 3008 CPU 0 5/25/21 13:54:37.642] Done ap prb 1 t 0
+[Thd 3008 CPU 7 5/25/21 13:54:37.642] 
+[Thd 8460 CPU 2 6/01/21 20:08:54.908] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1108393_S09_Pons -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 8460 CPU 1 6/01/21 20:18:19.923] Done ap prb 0 t 0
+[Thd 8460 CPU 4 6/01/21 20:18:19.923] 
+[Thd 14060 CPU 2 6/01/21 23:21:47.056] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1108393_S10 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 14060 CPU 2 6/01/21 23:32:23.131] Done ap prb 0 t 0
+[Thd 14060 CPU 2 6/01/21 23:32:23.131] 
+[Thd 5952 CPU 4 6/02/21 11:40:36.085] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_007_e3 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 5952 CPU 2 6/02/21 11:46:55.436] Done ap prb 0 t 0
+[Thd 5952 CPU 2 6/02/21 11:53:14.603] Done ap prb 1 t 0
+[Thd 5952 CPU 5 6/02/21 11:53:14.603] 
+[Thd 13452 CPU 0 6/02/21 14:11:37.079] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_007_e4 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 13452 CPU 0 6/02/21 14:18:00.174] Done ap prb 0 t 0
+[Thd 13452 CPU 2 6/02/21 14:24:23.343] Done ap prb 1 t 0
+[Thd 13452 CPU 0 6/02/21 14:24:23.343] 
+[Thd 10300 CPU 4 6/02/21 16:04:20.628] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_007_e5 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 10300 CPU 3 6/02/21 16:13:23.064] Done ap prb 0 t 0
+[Thd 10300 CPU 1 6/02/21 16:22:25.868] Done ap prb 1 t 0
+[Thd 10300 CPU 4 6/02/21 16:22:25.868] 
+[Thd 4864 CPU 2 6/03/21 19:32:36.493] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_007_e6 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 4864 CPU 2 6/03/21 19:42:50.165] Done ap prb 0 t 0
+[Thd 4864 CPU 3 6/03/21 19:53:03.701] Done ap prb 1 t 0
+[Thd 4864 CPU 2 6/03/21 19:53:03.701] 
+[Thd 11120 CPU 7 6/04/21 19:05:01.252] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_007_e7 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 11120 CPU 7 6/04/21 19:05:25.802] Write failed (error 2) for file 'MH_007_e7_g0_t0.imec0.ap.bin'.
+[Thd 11120 CPU 7 6/04/21 19:05:25.832] Write failed (error 2) for file 'MH_007_e7_g0_t0.imec1.ap.bin'.
+[Thd 11120 CPU 7 6/04/21 19:05:25.832] 
+[Thd 8860 CPU 2 6/05/21 18:34:12.978] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_007_e8 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 8860 CPU 2 6/05/21 18:34:13.008] Write failed (error 2) for file 'MH_007_e8_g0_t0.imec0.ap.bin'.
+[Thd 8860 CPU 2 6/05/21 18:34:13.028] Write failed (error 2) for file 'MH_007_e8_g0_t0.imec1.ap.bin'.
+[Thd 8860 CPU 2 6/05/21 18:34:13.028] 
+[Thd 7792 CPU 6 6/08/21 16:20:05.222] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_007_e7 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 7792 CPU 7 6/08/21 16:27:37.783] Done ap prb 0 t 0
+[Thd 7792 CPU 7 6/08/21 16:35:09.823] Done ap prb 1 t 0
+[Thd 7792 CPU 7 6/08/21 16:35:09.823] 
+[Thd 3600 CPU 0 6/08/21 19:01:31.923] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_007_e8 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 3600 CPU 5 6/08/21 19:07:31.607] Done ap prb 0 t 0
+[Thd 3600 CPU 0 6/08/21 19:13:31.222] Done ap prb 1 t 0
+[Thd 3600 CPU 0 6/08/21 19:13:31.232] 
+[Thd 6132 CPU 5 6/28/21 18:41:23.740] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1119544_S01_CB -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 6132 CPU 3 6/28/21 18:50:56.405] Done ap prb 0 t 0
+[Thd 6132 CPU 0 6/28/21 18:50:56.415] 
+[Thd 13020 CPU 3 6/29/21 18:58:53.926] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1119544_S02_CB -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 13020 CPU 7 6/29/21 19:09:06.890] Done ap prb 0 t 0
+[Thd 13020 CPU 0 6/29/21 19:09:06.900] 
+[Thd 10740 CPU 3 6/30/21 19:51:45.850] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1119544_S03 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 10740 CPU 3 6/30/21 20:01:20.282] Done ap prb 0 t 0
+[Thd 10740 CPU 0 6/30/21 20:10:54.821] Done ap prb 1 t 0
+[Thd 10740 CPU 3 6/30/21 20:10:54.921] 
+[Thd 12960 CPU 2 7/01/21 19:23:43.371] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1119544_S04_CB -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 12960 CPU 2 7/01/21 19:33:33.304] Done ap prb 0 t 0
+[Thd 12960 CPU 2 7/01/21 19:33:33.314] 
+[Thd 3956 CPU 5 7/02/21 14:30:46.231] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1119409_S01 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 3956 CPU 3 7/02/21 14:39:49.866] Done ap prb 0 t 0
+[Thd 3956 CPU 5 7/02/21 14:39:49.876] 
+[Thd 11000 CPU 3 7/02/21 20:24:46.737] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1119544_S05_CB_V1 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 11000 CPU 3 7/02/21 20:34:22.212] Done ap prb 0 t 0
+[Thd 11000 CPU 1 7/02/21 20:43:54.119] Done ap prb 1 t 0
+[Thd 11000 CPU 1 7/02/21 20:43:54.129] 
+[Thd 3748 CPU 1 7/03/21 19:43:08.859] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1119544_S06_CB_Ent -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 3748 CPU 3 7/03/21 19:53:54.887] Done ap prb 0 t 0
+[Thd 3748 CPU 1 7/03/21 20:04:39.933] Done ap prb 1 t 0
+[Thd 3748 CPU 1 7/03/21 20:04:39.933] 
+[Thd 11440 CPU 5 7/04/21 19:44:43.320] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1119544_S07_Ent -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 11440 CPU 2 7/04/21 19:55:39.148] Done ap prb 0 t 0
+[Thd 11440 CPU 5 7/04/21 19:55:39.158] 
+[Thd 7240 CPU 4 7/05/21 19:45:19.414] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1119544_S08_CB -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 7240 CPU 1 7/05/21 20:02:05.699] Done ap prb 0 t 0
+[Thd 7240 CPU 6 7/05/21 20:12:45.500] Done ap prb 1 t 0
+[Thd 7240 CPU 4 7/05/21 20:12:45.510] 
+[Thd 13956 CPU 6 7/06/21 15:43:38.447] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1119409_S02 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 13956 CPU 1 7/06/21 15:52:31.184] Done ap prb 0 t 0
+[Thd 13956 CPU 5 7/06/21 15:52:31.190] 
+[Thd 13808 CPU 4 7/07/21 16:23:45.661] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1119409_S03 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 13808 CPU 4 7/07/21 16:34:37.147] Done ap prb 0 t 0
+[Thd 13808 CPU 4 7/07/21 16:45:29.044] Done ap prb 1 t 0
+[Thd 13808 CPU 5 7/07/21 16:45:29.044] 
+[Thd 7040 CPU 2 7/08/21 17:34:19.625] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1119409_S04 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 7040 CPU 2 7/08/21 17:42:52.248] Done ap prb 0 t 0
+[Thd 7040 CPU 2 7/08/21 17:51:24.047] Done ap prb 1 t 0
+[Thd 7040 CPU 3 7/08/21 17:51:24.047] 
+[Thd 12628 CPU 7 7/09/21 17:29:22.098] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1119409_S05 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 12628 CPU 2 7/09/21 17:39:48.727] Done ap prb 0 t 0
+[Thd 12628 CPU 7 7/09/21 17:46:28.551] Write failed (error 2) for file 'ML_1119409_S05_g0_t0.imec1.ap.bin'.
+[Thd 12628 CPU 0 7/09/21 17:46:28.551] 
+[Thd 9812 CPU 6 7/10/21 17:15:19.760] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1119409_S06 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 9812 CPU 6 7/10/21 17:15:19.780] Write failed (error 2) for file 'ML_1119409_S06_g0_t0.imec0.ap.bin'.
+[Thd 9812 CPU 6 7/10/21 17:15:19.790] 
+[Thd 4708 CPU 6 7/27/21 14:33:46.997] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1119409_S05 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 4708 CPU 5 7/27/21 14:44:12.789] Done ap prb 0 t 0
+[Thd 4708 CPU 0 7/27/21 14:54:38.612] Done ap prb 1 t 0
+[Thd 4708 CPU 6 7/27/21 14:54:38.622] 
+[Thd 5292 CPU 0 7/27/21 18:46:55.104] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1119409_S06 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 5292 CPU 1 7/27/21 18:58:40.002] Done ap prb 0 t 0
+[Thd 5292 CPU 1 7/27/21 18:58:40.012] 
+[Thd 9788 CPU 0 7/28/21 12:19:25.735] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1119408_RE_S12 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 9788 CPU 0 7/28/21 12:19:25.735] Meta file not found 'D:/SGL_DATA/ML_1119408_RE_S12_g0/ML_1119408_RE_S12_g0_imec0/ML_1119408_RE_S12_g0_t0.imec0.ap.meta'.
+[Thd 9788 CPU 0 7/28/21 12:19:25.735] 
+[Thd 12048 CPU 6 7/30/21 15:38:08.635] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1120567_S01 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 12048 CPU 3 7/30/21 15:49:58.083] Done ap prb 0 t 0
+[Thd 12048 CPU 4 7/30/21 16:01:47.504] Done ap prb 1 t 0
+[Thd 12048 CPU 7 7/30/21 16:01:47.512] 
+[Thd 2844 CPU 2 7/31/21 18:51:23.652] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1120567_S02 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 2844 CPU 2 7/31/21 18:59:37.658] Write failed (error 2) for file 'ML_1120567_S02_g0_t0.imec0.ap.bin'.
+[Thd 2844 CPU 2 7/31/21 18:59:37.688] Write failed (error 2) for file 'ML_1120567_S02_g0_t0.imec1.ap.bin'.
+[Thd 2844 CPU 2 7/31/21 18:59:37.688] 
+[Thd 11104 CPU 3 8/01/21 19:50:39.687] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1120567_S02 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 11104 CPU 4 8/01/21 20:02:53.851] Done ap prb 0 t 0
+[Thd 11104 CPU 0 8/01/21 20:15:08.024] Done ap prb 1 t 0
+[Thd 11104 CPU 3 8/01/21 20:15:08.094] 
+[Thd 12132 CPU 6 8/02/21 15:30:06.504] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1120567_S03 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 12132 CPU 6 8/02/21 15:43:23.997] Done ap prb 0 t 0
+[Thd 12132 CPU 5 8/02/21 15:56:39.712] Done ap prb 1 t 0
+[Thd 12132 CPU 6 8/02/21 15:56:39.717] 
+[Thd 12332 CPU 3 8/02/21 19:11:37.981] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1120567_S04 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 12332 CPU 5 8/02/21 19:23:47.395] Done ap prb 0 t 0
+[Thd 12332 CPU 3 8/02/21 19:23:47.395] 
+[Thd 7224 CPU 5 8/02/21 21:43:01.947] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1120567_S01 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 7224 CPU 7 8/02/21 21:54:52.570] Done ap prb 0 t 0
+[Thd 7224 CPU 4 8/02/21 22:06:40.850] Done ap prb 1 t 0
+[Thd 7224 CPU 6 8/02/21 22:06:40.860] 
+[Thd 7196 CPU 4 8/14/21 17:06:04.897] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1119408_RE_S12 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 7196 CPU 0 8/14/21 17:06:04.907] Meta file not found 'D:/SGL_DATA/ML_1119408_RE_S12_g0/ML_1119408_RE_S12_g0_imec0/ML_1119408_RE_S12_g0_t0.imec0.ap.meta'.
+[Thd 7196 CPU 0 8/14/21 17:06:04.907] 
+[Thd 8756 CPU 4 8/14/21 18:23:43.032] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1119408_RE_S12 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 8756 CPU 4 8/14/21 18:35:10.906] Done ap prb 0 t 0
+[Thd 8756 CPU 5 8/14/21 18:35:10.916] 
+[Thd 2096 CPU 1 8/15/21 18:32:16.570] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1119408_MD_S11 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 2096 CPU 0 8/15/21 18:43:44.829] Done ap prb 0 t 0
+[Thd 2096 CPU 1 8/15/21 18:43:44.839] 
+[Thd 9064 CPU 3 9/05/21 22:07:07.779] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_015_e1 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 9064 CPU 6 9/05/21 22:18:11.059] Done ap prb 0 t 0
+[Thd 9064 CPU 6 9/05/21 22:29:14.035] Done ap prb 1 t 0
+[Thd 9064 CPU 6 9/05/21 22:29:14.037] 
+[Thd 5988 CPU 1 9/06/21 17:47:49.560] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_015_e2 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 5988 CPU 2 9/06/21 17:56:15.270] Done ap prb 0 t 0
+[Thd 5988 CPU 0 9/06/21 18:04:41.239] Done ap prb 1 t 0
+[Thd 5988 CPU 0 9/06/21 18:04:41.244] 
+[Thd 10040 CPU 5 9/07/21 19:01:54.934] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_015_e3 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 10040 CPU 5 9/07/21 19:12:26.298] Done ap prb 0 t 0
+[Thd 10040 CPU 5 9/07/21 19:17:11.003] Write failed (error 2) for file 'MH_015_e3_g0_t0.imec1.ap.bin'.
+[Thd 10040 CPU 6 9/07/21 19:17:11.004] 
+[Thd 10448 CPU 2 9/08/21 15:16:26.911] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_015_e4 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 10448 CPU 2 9/08/21 15:16:26.941] Write failed (error 2) for file 'MH_015_e4_g0_t0.imec0.ap.bin'.
+[Thd 10448 CPU 0 9/08/21 15:16:26.971] Write failed (error 2) for file 'MH_015_e4_g0_t0.imec1.ap.bin'.
+[Thd 10448 CPU 2 9/08/21 15:16:26.972] 
+[Thd 11576 CPU 1 9/10/21 15:46:26.474] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_015_e5 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 11576 CPU 0 9/10/21 15:59:42.614] Done ap prb 0 t 0
+[Thd 11576 CPU 7 9/10/21 16:12:58.321] Done ap prb 1 t 0
+[Thd 11576 CPU 0 9/10/21 16:12:58.321] 
+[Thd 340 CPU 6 9/12/21 00:59:34.671] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_015_e6 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 340 CPU 3 9/12/21 01:17:02.454] Done ap prb 0 t 0
+[Thd 340 CPU 0 9/12/21 01:34:29.463] Done ap prb 1 t 0
+[Thd 340 CPU 6 9/12/21 01:34:29.463] 
+[Thd 13160 CPU 0 9/28/21 16:19:14.048] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1121048_S01 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 13160 CPU 5 9/28/21 16:27:30.496] Done ap prb 0 t 0
+[Thd 13160 CPU 5 9/28/21 16:27:30.504] 
+[Thd 1588 CPU 4 9/28/21 21:07:08.726] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_015_e4 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 1588 CPU 5 9/28/21 21:15:53.281] Done ap prb 0 t 0
+[Thd 1588 CPU 4 9/28/21 21:24:37.356] Done ap prb 1 t 0
+[Thd 1588 CPU 6 9/28/21 21:24:37.356] 
+[Thd 7100 CPU 5 9/29/21 14:23:13.409] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1121048_S02 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 7100 CPU 3 9/29/21 14:31:46.172] Done ap prb 0 t 0
+[Thd 7100 CPU 6 9/29/21 14:40:12.785] Done ap prb 1 t 0
+[Thd 7100 CPU 6 9/29/21 14:40:12.785] 
+[Thd 11468 CPU 1 9/29/21 19:00:05.432] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1121049_S01 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 11468 CPU 2 9/29/21 19:10:35.021] Done ap prb 0 t 0
+[Thd 11468 CPU 2 9/29/21 19:21:02.643] Done ap prb 1 t 0
+[Thd 11468 CPU 1 9/29/21 19:21:02.651] 
+[Thd 13384 CPU 4 9/30/21 20:32:06.271] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1121048_S03 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 13384 CPU 1 9/30/21 20:42:09.207] Done ap prb 0 t 0
+[Thd 13384 CPU 4 9/30/21 20:52:11.232] Done ap prb 1 t 0
+[Thd 13384 CPU 4 9/30/21 20:52:11.242] 
+[Thd 13928 CPU 2 10/01/21 14:26:39.167] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1121049_S02_V2 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 13928 CPU 0 10/01/21 14:37:16.704] Done ap prb 0 t 0
+[Thd 13928 CPU 2 10/01/21 14:47:52.541] Done ap prb 1 t 0
+[Thd 13928 CPU 2 10/01/21 14:47:52.549] 
+[Thd 13576 CPU 6 10/01/21 18:19:35.227] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1121048_S04 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 13576 CPU 6 10/01/21 18:27:59.619] Done ap prb 0 t 0
+[Thd 13576 CPU 5 10/01/21 18:36:22.972] Done ap prb 1 t 0
+[Thd 13576 CPU 6 10/01/21 18:36:22.972] 
+[Thd 13180 CPU 1 10/01/21 20:03:04.238] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1121049_S03 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 13180 CPU 2 10/01/21 20:11:18.950] Done ap prb 0 t 0
+[Thd 13180 CPU 2 10/01/21 20:19:32.500] Done ap prb 1 t 0
+[Thd 13180 CPU 3 10/01/21 20:19:32.509] 
+[Thd 12996 CPU 4 10/03/21 22:41:31.334] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1121048_S05 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 12996 CPU 0 10/03/21 22:50:59.543] Done ap prb 0 t 0
+[Thd 12996 CPU 3 10/03/21 23:00:26.154] Done ap prb 1 t 0
+[Thd 12996 CPU 3 10/03/21 23:00:26.158] 
+[Thd 964 CPU 5 10/04/21 14:05:51.434] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1121049_S04 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 964 CPU 5 10/04/21 14:14:35.355] Done ap prb 0 t 0
+[Thd 964 CPU 5 10/04/21 14:23:17.765] Done ap prb 1 t 0
+[Thd 964 CPU 5 10/04/21 14:23:17.812] 
+[Thd 4752 CPU 1 10/04/21 17:00:09.996] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1121048_S06 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 4752 CPU 2 10/04/21 17:08:34.174] Done ap prb 0 t 0
+[Thd 4752 CPU 2 10/04/21 17:16:57.117] Done ap prb 1 t 0
+[Thd 4752 CPU 1 10/04/21 17:16:57.125] 
+[Thd 13784 CPU 1 10/04/21 22:11:06.542] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1121049_S05 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 13784 CPU 2 10/04/21 22:20:29.471] Done ap prb 0 t 0
+[Thd 13784 CPU 2 10/04/21 22:29:50.739] Done ap prb 1 t 0
+[Thd 13784 CPU 1 10/04/21 22:29:50.746] 
+[Thd 10536 CPU 6 10/05/21 15:30:11.820] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1121048_S07 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 10536 CPU 7 10/05/21 15:38:26.679] Done ap prb 0 t 0
+[Thd 10536 CPU 7 10/05/21 15:46:40.374] Done ap prb 1 t 0
+[Thd 10536 CPU 6 10/05/21 15:46:40.382] 
+[Thd 11584 CPU 1 10/06/21 14:57:44.351] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1121048_S08 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 11584 CPU 5 10/06/21 15:06:05.145] Done ap prb 0 t 0
+[Thd 11584 CPU 2 10/06/21 15:14:24.793] Done ap prb 1 t 0
+[Thd 11584 CPU 1 10/06/21 15:14:24.801] 
+[Thd 7072 CPU 0 10/25/21 19:08:25.430] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1122932_S01 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 7072 CPU 3 10/25/21 19:19:25.314] Done ap prb 0 t 0
+[Thd 7072 CPU 1 10/25/21 19:30:24.419] Done ap prb 1 t 0
+[Thd 7072 CPU 5 10/25/21 19:30:24.429] 
+[Thd 11484 CPU 0 10/26/21 17:37:14.946] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1122932_S02 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 11484 CPU 2 10/26/21 17:46:30.796] Done ap prb 0 t 0
+[Thd 11484 CPU 3 10/26/21 17:55:46.682] Done ap prb 1 t 0
+[Thd 11484 CPU 2 10/26/21 17:55:46.682] 
+[Thd 1148 CPU 0 10/27/21 17:35:25.562] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1122932_S03 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 1148 CPU 3 10/27/21 17:44:24.588] Done ap prb 0 t 0
+[Thd 1148 CPU 0 10/27/21 17:53:22.426] Done ap prb 1 t 0
+[Thd 1148 CPU 0 10/27/21 17:53:22.436] 
+[Thd 12248 CPU 6 10/28/21 18:08:11.951] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1122932_S04 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 12248 CPU 6 10/28/21 18:16:34.982] Done ap prb 0 t 0
+[Thd 12248 CPU 6 10/28/21 18:25:02.525] Done ap prb 1 t 0
+[Thd 12248 CPU 6 10/28/21 18:25:02.525] 
+[Thd 5956 CPU 2 10/29/21 17:57:11.471] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1122932_S05 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 5956 CPU 5 10/29/21 18:05:31.296] Done ap prb 0 t 0
+[Thd 5956 CPU 7 10/29/21 18:13:55.419] Done ap prb 1 t 0
+[Thd 5956 CPU 4 10/29/21 18:13:55.429] 
+[Thd 4716 CPU 3 10/30/21 17:41:05.454] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1122932_S06 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 4716 CPU 3 10/30/21 17:49:20.478] Done ap prb 0 t 0
+[Thd 4716 CPU 0 10/30/21 17:57:34.397] Done ap prb 1 t 0
+[Thd 4716 CPU 4 10/30/21 17:57:34.407] 
+[Thd 12368 CPU 6 10/31/21 19:15:54.707] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1122932_S07 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 12368 CPU 2 10/31/21 19:24:56.802] Done ap prb 0 t 0
+[Thd 12368 CPU 4 10/31/21 19:33:57.761] Done ap prb 1 t 0
+[Thd 12368 CPU 2 10/31/21 19:33:57.761] 
+[Thd 5312 CPU 3 11/01/21 17:12:53.493] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1122932_S08 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 5312 CPU 2 11/01/21 17:21:06.510] Done ap prb 0 t 0
+[Thd 5312 CPU 1 11/01/21 17:29:18.382] Done ap prb 1 t 0
+[Thd 5312 CPU 3 11/01/21 17:29:18.392] 
+[Thd 13084 CPU 5 11/02/21 18:13:54.318] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1122932_S09 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 13084 CPU 5 11/02/21 18:22:26.466] Done ap prb 0 t 0
+[Thd 13084 CPU 3 11/02/21 18:30:57.507] Done ap prb 1 t 0
+[Thd 13084 CPU 5 11/02/21 18:30:57.507] 
+[Thd 12560 CPU 4 11/09/21 14:47:39.336] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1121006_S01 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 12560 CPU 3 11/09/21 14:55:30.892] Done ap prb 0 t 0
+[Thd 12560 CPU 6 11/09/21 15:03:22.372] Done ap prb 1 t 0
+[Thd 12560 CPU 4 11/09/21 15:03:22.372] 
+[Thd 4788 CPU 7 11/10/21 14:43:10.457] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1121006_S02 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 4788 CPU 7 11/10/21 14:55:22.339] Done ap prb 0 t 0
+[Thd 4788 CPU 7 11/10/21 15:07:46.159] Done ap prb 1 t 0
+[Thd 4788 CPU 1 11/10/21 15:07:46.164] 
+[Thd 9640 CPU 1 11/11/21 15:24:11.033] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1121006_S03 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 9640 CPU 3 11/11/21 15:32:18.050] Done ap prb 0 t 0
+[Thd 9640 CPU 1 11/11/21 15:40:25.702] Done ap prb 1 t 0
+[Thd 9640 CPU 1 11/11/21 15:40:25.707] 
+[Thd 11588 CPU 5 11/12/21 18:36:49.080] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1121006_S04 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 11588 CPU 6 11/12/21 18:46:37.945] Done ap prb 0 t 0
+[Thd 11588 CPU 0 11/12/21 18:56:26.583] Done ap prb 1 t 0
+[Thd 11588 CPU 5 11/12/21 18:56:26.583] 
+[Thd 3172 CPU 4 11/13/21 17:27:13.315] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1121006_S05 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 3172 CPU 2 11/13/21 17:44:56.466] Done ap prb 0 t 0
+[Thd 3172 CPU 2 11/13/21 17:59:41.836] Done ap prb 1 t 0
+[Thd 3172 CPU 5 11/13/21 17:59:41.846] 
+[Thd 8280 CPU 1 11/14/21 14:05:00.680] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1121006_S06 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 8280 CPU 2 11/14/21 14:12:56.272] Done ap prb 0 t 0
+[Thd 8280 CPU 5 11/14/21 14:20:52.291] Done ap prb 1 t 0
+[Thd 8280 CPU 6 11/14/21 14:20:52.301] 
+[Thd 7692 CPU 4 11/14/21 18:49:06.330] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1122933_S01 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 7692 CPU 1 11/14/21 18:58:51.784] Done ap prb 0 t 0
+[Thd 7692 CPU 4 11/14/21 19:08:35.310] Done ap prb 1 t 0
+[Thd 7692 CPU 5 11/14/21 19:08:35.310] 
+[Thd 9664 CPU 4 11/15/21 14:19:51.949] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1121006_S07 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 9664 CPU 1 11/15/21 14:27:45.243] Done ap prb 0 t 0
+[Thd 9664 CPU 3 11/15/21 14:35:37.452] Done ap prb 1 t 0
+[Thd 9664 CPU 0 11/15/21 14:35:37.462] 
+[Thd 3532 CPU 2 11/15/21 18:40:50.129] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1122933_S02 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 3532 CPU 3 11/15/21 18:57:10.452] Done ap prb 0 t 0
+[Thd 3532 CPU 2 11/15/21 19:05:43.650] Done ap prb 1 t 0
+[Thd 3532 CPU 3 11/15/21 19:05:43.660] 
+[Thd 10556 CPU 2 11/16/21 14:04:17.870] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1121006_S08 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 10556 CPU 1 11/16/21 14:12:30.388] Done ap prb 0 t 0
+[Thd 10556 CPU 3 11/16/21 14:21:00.297] Done ap prb 1 t 0
+[Thd 10556 CPU 6 11/16/21 14:21:00.301] 
+[Thd 10404 CPU 6 11/16/21 18:15:16.547] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1122933_S03 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 10404 CPU 1 11/16/21 18:23:56.899] Done ap prb 0 t 0
+[Thd 10404 CPU 1 11/16/21 18:32:35.955] Done ap prb 1 t 0
+[Thd 10404 CPU 6 11/16/21 18:32:35.955] 
+[Thd 7864 CPU 3 11/17/21 18:11:20.564] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1122933_S04 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 7864 CPU 2 11/17/21 18:20:55.874] Done ap prb 0 t 0
+[Thd 7864 CPU 3 11/17/21 18:30:29.528] Done ap prb 1 t 0
+[Thd 7864 CPU 4 11/17/21 18:30:29.528] 
+[Thd 7612 CPU 2 11/18/21 18:20:08.412] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1122933_S05 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 7612 CPU 0 11/18/21 18:29:08.801] Done ap prb 0 t 0
+[Thd 7612 CPU 2 11/18/21 18:38:07.858] Done ap prb 1 t 0
+[Thd 7612 CPU 2 11/18/21 18:38:07.868] 
+[Thd 1520 CPU 2 11/19/21 18:35:52.407] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1122933_S06 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 1520 CPU 7 11/19/21 18:45:49.330] Done ap prb 0 t 0
+[Thd 1520 CPU 2 11/19/21 18:55:44.914] Done ap prb 1 t 0
+[Thd 1520 CPU 2 11/19/21 18:55:44.924] 
+[Thd 1796 CPU 1 11/20/21 19:34:47.518] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1122933_S07 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 1796 CPU 1 11/20/21 19:43:37.866] Done ap prb 0 t 0
+[Thd 1796 CPU 3 11/20/21 19:51:48.991] Done ap prb 1 t 0
+[Thd 1796 CPU 2 11/20/21 19:51:48.991] 
+[Thd 12636 CPU 3 11/21/21 18:02:24.001] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1122933_S08 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 12636 CPU 7 11/21/21 18:15:20.341] Done ap prb 0 t 0
+[Thd 12636 CPU 2 11/21/21 18:23:33.528] Done ap prb 1 t 0
+[Thd 12636 CPU 3 11/21/21 18:23:33.608] 
+[Thd 3188 CPU 2 11/22/21 13:22:25.475] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1121005_S01 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 3188 CPU 3 11/22/21 13:30:14.198] Done ap prb 0 t 0
+[Thd 3188 CPU 3 11/22/21 13:38:00.784] Done ap prb 1 t 0
+[Thd 3188 CPU 2 11/22/21 13:38:00.784] 
+[Thd 12420 CPU 5 11/22/21 18:26:12.120] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1122933_S09 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 12420 CPU 2 11/22/21 18:35:17.679] Done ap prb 0 t 0
+[Thd 12420 CPU 3 11/22/21 18:44:21.912] Done ap prb 1 t 0
+[Thd 12420 CPU 5 11/22/21 18:44:21.912] 
+[Thd 4232 CPU 7 11/23/21 13:46:46.634] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1121005_S02 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 4232 CPU 0 11/23/21 13:54:40.289] Done ap prb 0 t 0
+[Thd 4232 CPU 1 11/23/21 14:02:32.446] Done ap prb 1 t 0
+[Thd 4232 CPU 7 11/23/21 14:02:32.446] 
+[Thd 8568 CPU 1 11/25/21 17:20:31.297] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1121005_S04 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 8568 CPU 1 11/25/21 17:28:31.283] Done ap prb 0 t 0
+[Thd 8568 CPU 3 11/25/21 17:36:29.462] Done ap prb 1 t 0
+[Thd 8568 CPU 1 11/25/21 17:36:29.472] 
+[Thd 6392 CPU 0 11/26/21 15:53:12.294] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1121005_S05 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 6392 CPU 0 11/26/21 16:01:12.489] Done ap prb 0 t 0
+[Thd 6392 CPU 0 11/26/21 16:09:11.550] Done ap prb 1 t 0
+[Thd 6392 CPU 0 11/26/21 16:09:11.550] 
+[Thd 9028 CPU 5 11/28/21 19:14:59.641] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1121005_S06 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 9028 CPU 5 11/28/21 19:23:30.869] Done ap prb 0 t 0
+[Thd 9028 CPU 5 11/28/21 19:32:01.032] Done ap prb 1 t 0
+[Thd 9028 CPU 6 11/28/21 19:32:01.042] 
+[Thd 8252 CPU 2 11/29/21 16:30:11.334] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1121005_S07 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 8252 CPU 2 11/29/21 16:38:21.196] Done ap prb 0 t 0
+[Thd 8252 CPU 2 11/29/21 16:46:29.823] Done ap prb 1 t 0
+[Thd 8252 CPU 2 11/29/21 16:46:29.833] 
+[Thd 6372 CPU 7 11/30/21 18:06:41.293] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1121005_S03 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 6372 CPU 7 11/30/21 18:06:41.293] Meta file not found 'D:/SGL_DATA/ML_1121005_S03_g0/ML_1121005_S03_g0_imec0/ML_1121005_S03_g0_t0.imec0.ap.meta'.
+[Thd 6372 CPU 7 11/30/21 18:06:41.293] 
+[Thd 7152 CPU 6 12/13/21 01:25:16.762] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1119141_S01_V1Stim -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 7152 CPU 2 12/13/21 01:34:22.518] Done ap prb 0 t 0
+[Thd 7152 CPU 3 12/13/21 01:34:22.528] 
+[Thd 4200 CPU 0 12/13/21 19:42:43.571] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1119141_S02_RLStim -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 4200 CPU 0 12/13/21 19:52:58.563] Done ap prb 0 t 0
+[Thd 4200 CPU 1 12/13/21 19:52:58.573] 
+[Thd 6468 CPU 0 12/14/21 16:58:53.916] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1119141_S03_V1Stim -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 6468 CPU 7 12/14/21 17:07:37.569] Done ap prb 0 t 0
+[Thd 6468 CPU 2 12/14/21 17:07:37.569] 
+[Thd 13228 CPU 2 12/15/21 19:49:44.738] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1119141_S04_RLStim -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 13228 CPU 1 12/15/21 19:57:50.236] Done ap prb 0 t 0
+[Thd 13228 CPU 2 12/15/21 19:57:50.236] 
+[Thd 3228 CPU 7 12/16/21 17:32:16.315] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1119141_S05_aM2Stim_v3 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 3228 CPU 6 12/16/21 17:41:45.862] Done ap prb 0 t 0
+[Thd 3228 CPU 7 12/16/21 17:41:45.870] 
+[Thd 11080 CPU 2 12/17/21 14:33:45.464] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1119141_S06_aM2Stim -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 11080 CPU 2 12/17/21 14:43:59.118] Done ap prb 0 t 0
+[Thd 11080 CPU 2 12/17/21 14:43:59.128] 
+[Thd 10936 CPU 0 12/19/21 18:28:01.121] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1120065_S01 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 10936 CPU 7 12/19/21 18:38:15.147] Done ap prb 0 t 0
+[Thd 10936 CPU 0 12/19/21 18:38:15.157] 
+[Thd 6160 CPU 3 12/20/21 17:11:41.150] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1120065_S02 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 6160 CPU 7 12/20/21 17:25:36.940] Done ap prb 0 t 0
+[Thd 6160 CPU 2 12/20/21 17:25:36.940] 
+[Thd 11448 CPU 3 12/22/21 18:01:14.942] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1120065_S03 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 11448 CPU 2 12/22/21 18:10:57.975] Done ap prb 0 t 0
+[Thd 11448 CPU 3 12/22/21 18:20:13.171] Done ap prb 1 t 0
+[Thd 11448 CPU 3 12/22/21 18:20:13.171] 
+[Thd 5236 CPU 1 12/23/21 17:55:20.757] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1120065_S04 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 5236 CPU 3 12/23/21 18:04:56.132] Done ap prb 0 t 0
+[Thd 5236 CPU 2 12/23/21 18:14:29.664] Done ap prb 1 t 0
+[Thd 5236 CPU 2 12/23/21 18:14:29.674] 
+[Thd 8440 CPU 7 12/24/21 19:32:15.313] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1120065_S05 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 8440 CPU 2 12/24/21 19:43:11.607] Done ap prb 0 t 0
+[Thd 8440 CPU 0 12/24/21 19:54:05.571] Done ap prb 1 t 0
+[Thd 8440 CPU 7 12/24/21 19:54:05.581] 
+[Thd 11800 CPU 1 1/24/22 14:51:02.760] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1121005_S03 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 11800 CPU 2 1/24/22 14:51:02.770] Meta file not found 'D:/SGL_DATA/ML_1121005_S03_g0/ML_1121005_S03_g0_imec0/ML_1121005_S03_g0_t0.imec0.ap.meta'.
+[Thd 11800 CPU 2 1/24/22 14:51:02.770] 
+[Thd 2372 CPU 4 1/24/22 15:50:35.509] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1121005_S03 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 2372 CPU 4 1/24/22 15:50:35.509] Meta file not found 'D:/SGL_DATA/ML_1121005_S03_g0/ML_1121005_S03_g0_imec0/ML_1121005_S03_g0_t0.imec0.ap.meta'.
+[Thd 2372 CPU 4 1/24/22 15:50:35.509] 
+[Thd 10948 CPU 1 1/24/22 15:52:43.074] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1121005_S03 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 10948 CPU 1 1/24/22 15:52:43.074] Meta file not found 'D:/SGL_DATA/ML_1121005_S03_g0/ML_1121005_S03_g0_imec0/ML_1121005_S03_g0_t0.imec0.ap.meta'.
+[Thd 10948 CPU 1 1/24/22 15:52:43.074] 
+[Thd 6208 CPU 1 1/24/22 16:48:33.221] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1121005_S03 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 6208 CPU 2 1/24/22 16:56:30.024] Done ap prb 0 t 0
+[Thd 6208 CPU 2 1/24/22 17:04:22.639] Done ap prb 1 t 0
+[Thd 6208 CPU 1 1/24/22 17:04:22.644] 
+[Thd 12240 CPU 0 2/28/22 20:12:21.073] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_011_e1 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 12240 CPU 4 2/28/22 20:22:31.865] Done ap prb 0 t 0
+[Thd 12240 CPU 2 2/28/22 20:32:43.635] Done ap prb 1 t 0
+[Thd 12240 CPU 2 2/28/22 20:32:43.639] 
+[Thd 11396 CPU 3 3/01/22 22:31:13.329] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_011_e2 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 11396 CPU 7 3/01/22 22:54:31.009] Done ap prb 0 t 0
+[Thd 11396 CPU 0 3/01/22 22:59:42.905] Write failed (error 2) for file 'MH_011_e2_g0_t0.imec1.ap.bin'.
+[Thd 11396 CPU 0 3/01/22 22:59:42.905] 
+[Thd 3936 CPU 2 3/02/22 19:02:25.556] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_011_e3 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 3936 CPU 0 3/02/22 19:19:13.456] Done ap prb 0 t 0
+[Thd 3936 CPU 2 3/02/22 19:36:01.619] Done ap prb 1 t 0
+[Thd 3936 CPU 2 3/02/22 19:36:01.678] 
+[Thd 11824 CPU 5 3/02/22 22:57:28.912] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_010_e1 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 11824 CPU 5 3/02/22 23:01:54.285] Write failed (error 2) for file 'MH_010_e1_g0_t0.imec0.ap.bin'.
+[Thd 11824 CPU 2 3/02/22 23:01:54.313] Write failed (error 2) for file 'MH_010_e1_g0_t0.imec1.ap.bin'.
+[Thd 11824 CPU 2 3/02/22 23:01:54.313] 
+[Thd 12276 CPU 7 3/03/22 14:44:46.334] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_011_e4 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 12276 CPU 7 3/03/22 14:51:28.353] Done ap prb 0 t 0
+[Thd 12276 CPU 7 3/03/22 14:51:28.359] 
+[Thd 12032 CPU 4 3/03/22 19:42:52.977] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_010_e2 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 12032 CPU 4 3/03/22 19:57:29.369] Done ap prb 0 t 0
+[Thd 12032 CPU 4 3/03/22 20:12:04.711] Done ap prb 1 t 0
+[Thd 12032 CPU 4 3/03/22 20:12:04.719] 
+[Thd 7500 CPU 2 3/04/22 18:23:45.043] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_010_e3 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 7500 CPU 7 3/04/22 18:35:04.080] Done ap prb 0 t 0
+[Thd 7500 CPU 2 3/04/22 18:46:22.572] Done ap prb 1 t 0
+[Thd 7500 CPU 2 3/04/22 18:46:22.622] 
+[Thd 11860 CPU 0 3/07/22 18:28:29.386] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_011_e5 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 11860 CPU 7 3/07/22 18:49:15.478] Done ap prb 0 t 0
+[Thd 11860 CPU 6 3/07/22 19:10:06.511] Done ap prb 1 t 0
+[Thd 11860 CPU 4 3/07/22 19:10:06.516] 
+[Thd 13100 CPU 6 3/08/22 12:38:44.146] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_010_e4 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 13100 CPU 3 3/08/22 12:43:19.557] Done ap prb 0 t 0
+[Thd 13100 CPU 3 3/08/22 12:47:54.972] Done ap prb 1 t 0
+[Thd 13100 CPU 3 3/08/22 12:47:54.977] 
+[Thd 12392 CPU 5 3/08/22 16:04:06.442] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_011_e6 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 12392 CPU 2 3/08/22 16:15:02.401] Done ap prb 0 t 0
+[Thd 12392 CPU 1 3/08/22 16:15:02.430] 
+[Thd 6884 CPU 4 3/08/22 22:14:19.896] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_010_e5 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 6884 CPU 4 3/08/22 22:20:22.066] Write failed (error 2) for file 'MH_010_e5_g0_t0.imec0.ap.bin'.
+[Thd 6884 CPU 4 3/08/22 22:20:22.086] Write failed (error 2) for file 'MH_010_e5_g0_t0.imec1.ap.bin'.
+[Thd 6884 CPU 4 3/08/22 22:20:22.096] 
+[Thd 2340 CPU 3 3/09/22 15:38:35.044] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_011_e7 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 2340 CPU 2 3/09/22 15:50:39.446] Done ap prb 0 t 0
+[Thd 2340 CPU 5 3/09/22 16:02:43.679] Done ap prb 1 t 0
+[Thd 2340 CPU 5 3/09/22 16:02:43.684] 
+[Thd 2736 CPU 4 3/09/22 18:55:45.713] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_010_e6 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 2736 CPU 5 3/09/22 19:05:38.550] Done ap prb 0 t 0
+[Thd 2736 CPU 2 3/09/22 19:15:31.555] Done ap prb 1 t 0
+[Thd 2736 CPU 7 3/09/22 19:15:31.555] 
+[Thd 4956 CPU 7 5/23/22 15:16:12.870] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1122811_S01 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 4956 CPU 7 5/23/22 15:26:28.900] Done ap prb 0 t 0
+[Thd 4956 CPU 3 5/23/22 15:26:28.909] 
+[Thd 7228 CPU 7 5/24/22 15:18:03.148] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1122811_S02 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 7228 CPU 2 5/24/22 15:28:56.899] Done ap prb 0 t 0
+[Thd 7228 CPU 2 5/24/22 15:28:56.905] 
+[Thd 7136 CPU 1 5/25/22 17:08:40.726] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1122811_S03 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 7136 CPU 1 5/25/22 17:18:34.419] Done ap prb 0 t 0
+[Thd 7136 CPU 3 5/25/22 17:18:34.425] 
+[Thd 6132 CPU 7 5/26/22 17:03:26.348] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1122811_S04 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 6132 CPU 7 5/26/22 17:13:44.967] Done ap prb 0 t 0
+[Thd 6132 CPU 7 5/26/22 17:13:44.976] 
+[Thd 10552 CPU 2 5/27/22 14:28:02.607] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1122811_S05_v2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 10552 CPU 1 5/27/22 14:37:48.192] Done ap prb 0 t 0
+[Thd 10552 CPU 3 5/27/22 14:37:48.192] 
+[Thd 5692 CPU 5 5/28/22 16:19:20.518] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML1122811_S06_v2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 5692 CPU 7 5/28/22 16:29:18.416] Done ap prb 0 t 0
+[Thd 5692 CPU 6 5/28/22 16:29:18.424] 
+[Thd 12176 CPU 4 5/29/22 15:57:58.305] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1122811_S07 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 12176 CPU 5 5/29/22 16:08:09.558] Done ap prb 0 t 0
+[Thd 12176 CPU 4 5/29/22 16:08:09.566] 
+[Thd 6880 CPU 4 5/30/22 14:23:19.854] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1122811_S08 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 6880 CPU 6 5/30/22 14:32:31.687] Done ap prb 0 t 0
+[Thd 6880 CPU 5 5/30/22 14:32:31.695] 
+[Thd 4500 CPU 7 5/31/22 14:24:11.851] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1122811_S09 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 4500 CPU 7 5/31/22 14:33:53.660] Done ap prb 0 t 0
+[Thd 4500 CPU 7 5/31/22 14:33:53.670] 
+[Thd 10136 CPU 3 6/04/22 20:46:35.556] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_037_e1 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 10136 CPU 4 6/04/22 21:00:05.799] Done ap prb 0 t 0
+[Thd 10136 CPU 6 6/04/22 21:13:36.428] Done ap prb 1 t 0
+[Thd 10136 CPU 4 6/04/22 21:13:36.436] 
+[Thd 10380 CPU 6 6/05/22 20:26:41.669] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_037_e2 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 10380 CPU 5 6/05/22 20:36:45.086] Done ap prb 0 t 0
+[Thd 10380 CPU 6 6/05/22 20:46:47.071] Done ap prb 1 t 0
+[Thd 10380 CPU 6 6/05/22 20:46:47.076] 
+[Thd 1560 CPU 4 6/06/22 18:28:17.355] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_037_e3 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 1560 CPU 4 6/06/22 18:36:32.653] Done ap prb 0 t 0
+[Thd 1560 CPU 7 6/06/22 18:44:47.533] Done ap prb 1 t 0
+[Thd 1560 CPU 4 6/06/22 18:44:47.541] 
+[Thd 1232 CPU 7 6/08/22 20:49:50.284] Cmdline: CatGT -dir=D:/SGL_DATA -run=MH_037_e4 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 1232 CPU 6 6/08/22 20:59:43.598] Done ap prb 0 t 0
+[Thd 1232 CPU 5 6/08/22 21:09:36.681] Done ap prb 1 t 0
+[Thd 1232 CPU 7 6/08/22 21:09:36.689] 
+[Thd 6944 CPU 6 6/14/22 12:17:24.505] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1122809_S01 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 6944 CPU 2 6/14/22 12:27:43.328] Done ap prb 0 t 0
+[Thd 6944 CPU 6 6/14/22 12:27:43.338] 
+[Thd 10776 CPU 6 6/14/22 20:01:09.117] Cmdline: CatGT -dir=D:/SGL_DATA -run=IO_150_20220614_S01 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 10776 CPU 2 6/14/22 20:12:26.500] Done ap prb 0 t 0
+[Thd 10776 CPU 6 6/14/22 20:12:26.540] 
+[Thd 15088 CPU 7 6/15/22 18:49:56.800] Cmdline: CatGT -dir=D:/SGL_DATA -run=IO_150_20220615_S02 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 15088 CPU 5 6/15/22 19:11:10.608] Done ap prb 0 t 0
+[Thd 15088 CPU 7 6/15/22 19:11:10.608] 
+[Thd 11952 CPU 7 6/16/22 10:12:05.927] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1122809_S02 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 11952 CPU 7 6/16/22 10:21:05.130] Done ap prb 0 t 0
+[Thd 11952 CPU 7 6/16/22 10:21:05.130] 
+[Thd 6864 CPU 0 6/16/22 13:31:32.020] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1122809_S03 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 6864 CPU 7 6/16/22 13:40:30.304] Done ap prb 0 t 0
+[Thd 6864 CPU 0 6/16/22 13:40:30.314] 
+[Thd 4308 CPU 7 6/16/22 19:08:03.459] Cmdline: CatGT -dir=D:/SGL_DATA -run=IO_150_20220616_S03 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 4308 CPU 0 6/16/22 19:17:32.614] Done ap prb 0 t 0
+[Thd 4308 CPU 3 6/16/22 19:17:32.614] 
+[Thd 4112 CPU 3 6/17/22 19:00:19.835] Cmdline: CatGT -dir=D:/SGL_DATA -run=IO_150_20220617_S04 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 4112 CPU 6 6/17/22 19:08:51.402] Done ap prb 0 t 0
+[Thd 4112 CPU 3 6/17/22 19:08:51.413] 
+[Thd 7584 CPU 3 6/19/22 18:45:46.008] Cmdline: CatGT -dir=D:/SGL_DATA -run=IO_150_20220619_S05 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 7584 CPU 6 6/19/22 18:56:05.401] Done ap prb 0 t 0
+[Thd 7584 CPU 4 6/19/22 18:56:05.411] 
+[Thd 6140 CPU 5 6/20/22 14:00:36.695] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1122809_S04 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 6140 CPU 3 6/20/22 14:10:13.623] Done ap prb 0 t 0
+[Thd 6140 CPU 6 6/20/22 14:10:13.623] 
+[Thd 9136 CPU 1 6/20/22 19:33:17.687] Cmdline: CatGT -dir=D:/SGL_DATA -run=IO_150_20220620_S06 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 9136 CPU 1 6/20/22 19:42:33.130] Done ap prb 0 t 0
+[Thd 9136 CPU 3 6/20/22 19:42:33.140] 
+[Thd 6704 CPU 6 6/21/22 19:19:03.444] Cmdline: CatGT -dir=D:/SGL_DATA -run=IO_150_20220621_S07 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 6704 CPU 5 6/21/22 19:28:30.439] Done ap prb 0 t 0
+[Thd 6704 CPU 6 6/21/22 19:28:30.439] 
+[Thd 4692 CPU 1 6/22/22 17:59:48.715] Cmdline: CatGT -dir=D:/SGL_DATA -run=IO_150_20220622_S08 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 4692 CPU 1 6/22/22 18:10:57.001] Done ap prb 0 t 0
+[Thd 4692 CPU 0 6/22/22 18:10:57.011] 
+[Thd 2888 CPU 1 6/23/22 14:25:06.070] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1122809_S05 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 2888 CPU 1 6/23/22 14:35:57.520] Done ap prb 0 t 0
+[Thd 2888 CPU 2 6/23/22 14:35:57.530] 
+[Thd 4764 CPU 7 6/23/22 19:25:32.300] Cmdline: CatGT -dir=D:/SGL_DATA -run=IO_150_20220623_S09 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 4764 CPU 1 6/23/22 19:38:09.045] Done ap prb 0 t 0
+[Thd 4764 CPU 7 6/23/22 19:38:09.045] 
+[Thd 6152 CPU 7 6/24/22 13:17:45.584] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1122809_S06 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 6152 CPU 4 6/24/22 13:27:51.183] Done ap prb 0 t 0
+[Thd 6152 CPU 7 6/24/22 13:27:51.213] 
+[Thd 11432 CPU 5 6/24/22 18:14:25.765] Cmdline: CatGT -dir=D:/SGL_DATA -run=IO_150_20220624_S10 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 11432 CPU 4 6/24/22 18:20:49.769] Done ap prb 0 t 0
+[Thd 11432 CPU 5 6/24/22 18:27:13.441] Done ap prb 1 t 0
+[Thd 11432 CPU 5 6/24/22 18:27:13.481] 
+[Thd 13836 CPU 0 7/15/22 19:52:10.087] Cmdline: CatGT -dir=D:/SGL_DATA -run=IO_157_20220715_S01 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 13836 CPU 5 7/15/22 20:00:58.191] Done ap prb 0 t 0
+[Thd 13836 CPU 3 7/15/22 20:00:58.201] 
+[Thd 3644 CPU 1 7/17/22 19:57:03.486] Cmdline: CatGT -dir=D:/SGL_DATA -run=IO_157_20220717_S02 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 3644 CPU 0 7/17/22 20:05:57.974] Done ap prb 0 t 0
+[Thd 3644 CPU 1 7/17/22 20:05:57.974] 
+[Thd 3836 CPU 4 7/18/22 14:11:55.357] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1120795_S01 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 3836 CPU 2 7/18/22 14:20:29.120] Done ap prb 0 t 0
+[Thd 3836 CPU 4 7/18/22 14:20:29.130] 
+[Thd 8972 CPU 3 7/18/22 19:51:44.448] Cmdline: CatGT -dir=D:/SGL_DATA -run=IO_157_20220718_S03 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 8972 CPU 0 7/18/22 20:03:33.606] Done ap prb 0 t 0
+[Thd 8972 CPU 5 7/18/22 20:03:33.616] 
+[Thd 3760 CPU 5 7/19/22 15:26:31.377] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1120795_S02_v3 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 3760 CPU 2 7/19/22 15:45:48.676] Done ap prb 0 t 0
+[Thd 3760 CPU 5 7/19/22 15:45:48.676] 
+[Thd 1388 CPU 7 7/19/22 20:21:53.396] Cmdline: CatGT -dir=D:/SGL_DATA -run=IO_157_20220719_S04 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 1388 CPU 0 7/19/22 20:32:36.456] Done ap prb 0 t 0
+[Thd 1388 CPU 7 7/19/22 20:32:36.546] 
+[Thd 4788 CPU 0 7/21/22 16:03:26.243] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1120795_S03 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 4788 CPU 0 7/21/22 16:14:01.211] Done ap prb 0 t 0
+[Thd 4788 CPU 0 7/21/22 16:14:01.211] 
+[Thd 4356 CPU 5 7/22/22 16:08:01.134] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1120795_S04 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 4356 CPU 0 7/22/22 16:19:01.706] Done ap prb 0 t 0
+[Thd 4356 CPU 5 7/22/22 16:19:01.716] 
+[Thd 7760 CPU 4 7/24/22 18:27:52.807] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1120795_S05 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 7760 CPU 4 7/24/22 18:38:55.666] Done ap prb 0 t 0
+[Thd 7760 CPU 7 7/24/22 18:38:55.677] 
+[Thd 3512 CPU 7 7/25/22 19:42:00.254] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1120795_S06 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 3512 CPU 2 7/25/22 19:51:43.969] Done ap prb 0 t 0
+[Thd 3512 CPU 7 7/25/22 19:51:43.979] 
+[Thd 6136 CPU 7 10/29/22 18:07:59.081] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1122808_S01 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 6136 CPU 7 10/29/22 18:15:28.115] Done ap prb 0 t 0
+[Thd 6136 CPU 3 10/29/22 18:15:28.125] 
+[Thd 4052 CPU 0 10/30/22 18:31:10.678] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1122808_S02 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 4052 CPU 3 10/30/22 18:41:59.809] Done ap prb 0 t 0
+[Thd 4052 CPU 1 10/30/22 18:41:59.809] 
+[Thd 7884 CPU 3 10/31/22 14:53:24.327] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1122808_S03 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 7884 CPU 3 10/31/22 15:03:18.801] Done ap prb 0 t 0
+[Thd 7884 CPU 3 10/31/22 15:03:18.811] 
+[Thd 4788 CPU 3 11/01/22 18:34:49.826] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1122808_S04 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 4788 CPU 4 11/01/22 18:47:03.584] Done ap prb 0 t 0
+[Thd 4788 CPU 3 11/01/22 18:47:03.594] 
+[Thd 7796 CPU 3 11/02/22 15:44:43.528] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1122808_S05 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 7796 CPU 2 11/02/22 15:55:46.805] Done ap prb 0 t 0
+[Thd 7796 CPU 4 11/02/22 15:55:46.814] 
+[Thd 3444 CPU 2 11/02/22 16:57:23.458] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1122808_S03 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 3444 CPU 0 11/02/22 17:07:00.375] Done ap prb 0 t 0
+[Thd 3444 CPU 2 11/02/22 17:07:00.385] 
+[Thd 10228 CPU 3 11/03/22 17:32:06.593] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1122808_S06 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 10228 CPU 1 11/03/22 17:42:56.036] Done ap prb 0 t 0
+[Thd 10228 CPU 3 11/03/22 17:42:56.046] 
+[Thd 2784 CPU 7 6/02/23 13:46:02.453] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1126564_S01_cM2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 2784 CPU 7 6/02/23 13:56:59.783] Done ap prb 0 t 0
+[Thd 2784 CPU 5 6/02/23 13:56:59.783] 
+[Thd 8420 CPU 7 6/05/23 11:02:45.171] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1126564_S02_cM2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 8420 CPU 6 6/05/23 11:15:11.900] Done ap prb 0 t 0
+[Thd 8420 CPU 1 6/05/23 11:15:11.902] 
+[Thd 7660 CPU 1 6/05/23 15:54:22.854] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1126564_S03_aM2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 7660 CPU 2 6/05/23 16:06:19.003] Done ap prb 0 t 0
+[Thd 7660 CPU 3 6/05/23 16:06:19.005] 
+[Thd 1720 CPU 7 6/06/23 12:51:11.840] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1126564_S04_aM2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 1720 CPU 6 6/06/23 13:06:50.681] Done ap prb 0 t 0
+[Thd 1720 CPU 0 6/06/23 13:06:50.681] 
+[Thd 10652 CPU 3 6/06/23 15:36:33.792] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1126564_S05_cM2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 10652 CPU 3 6/06/23 15:44:59.942] Done ap prb 0 t 0
+[Thd 10652 CPU 3 6/06/23 15:44:59.942] 
+[Thd 1412 CPU 0 6/08/23 16:01:57.301] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1126564_S06_cM2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 1412 CPU 2 6/08/23 16:13:02.110] Done ap prb 0 t 0
+[Thd 1412 CPU 0 6/08/23 16:13:02.110] 
+[Thd 1312 CPU 7 6/19/23 16:44:41.489] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1126564_S07_aM2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 1312 CPU 4 6/19/23 16:54:43.016] Done ap prb 0 t 0
+[Thd 1312 CPU 6 6/19/23 16:54:43.016] 
+[Thd 8928 CPU 7 6/20/23 13:55:46.495] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1126564_S08_cM2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 8928 CPU 7 6/20/23 14:05:08.954] Done ap prb 0 t 0
+[Thd 8928 CPU 7 6/20/23 14:05:08.954] 
+[Thd 2452 CPU 6 6/21/23 12:35:42.363] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1126564_S09_ScreenChange -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 2452 CPU 6 6/21/23 12:46:58.994] Done ap prb 0 t 0
+[Thd 2452 CPU 6 6/21/23 12:46:58.994] 
+[Thd 4296 CPU 7 6/26/23 16:33:32.417] Cmdline: CatGT -dir=D:/SGL_DATA -run=IO_170_S01 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 4296 CPU 7 6/26/23 16:33:32.418] Meta file not found 'D:/SGL_DATA/IO_170_S01_g0/IO_170_S01_g0_imec0/IO_170_S01_g0_t0.imec0.ap.meta'.
+[Thd 4296 CPU 7 6/26/23 16:33:32.419] 
+[Thd 7736 CPU 3 6/26/23 17:24:14.847] Cmdline: CatGT -dir=D:/SGL_DATA -run=IO_170_S02 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 7736 CPU 3 6/26/23 17:35:05.528] Done ap prb 0 t 0
+[Thd 7736 CPU 4 6/26/23 17:35:05.528] 
+[Thd 3080 CPU 4 6/26/23 19:46:41.503] Cmdline: CatGT -dir=D:/SGL_DATA -run=IO_170_S03 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 3080 CPU 5 6/26/23 20:00:11.095] Done ap prb 0 t 0
+[Thd 3080 CPU 4 6/26/23 20:00:11.125] 
+[Thd 4368 CPU 0 6/27/23 17:31:57.727] Cmdline: CatGT -dir=D:/SGL_DATA -run=IO_170_S04 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 4368 CPU 2 6/27/23 17:41:42.418] Done ap prb 0 t 0
+[Thd 4368 CPU 0 6/27/23 17:41:42.428] 
+[Thd 3008 CPU 2 6/28/23 20:56:11.817] Cmdline: CatGT -dir=D:/SGL_DATA -run=IO_170_S06 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 3008 CPU 2 6/28/23 21:18:34.654] Done ap prb 0 t 0
+[Thd 3008 CPU 2 6/28/23 21:18:34.654] 
+[Thd 3880 CPU 7 6/29/23 19:43:40.743] Cmdline: CatGT -dir=D:/SGL_DATA -run=IO_170_S07 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 3880 CPU 7 6/29/23 19:58:27.269] Done ap prb 0 t 0
+[Thd 3880 CPU 2 6/29/23 19:58:27.269] 
+[Thd 11648 CPU 6 8/08/23 17:14:43.805] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1131391_S01 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 11648 CPU 1 8/08/23 17:23:27.237] Done ap prb 0 t 0
+[Thd 11648 CPU 3 8/08/23 17:23:27.237] 
+[Thd 2888 CPU 5 8/10/23 17:32:26.020] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1131391_S02 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 2888 CPU 5 8/10/23 17:32:26.020] Meta file not found 'D:/SGL_DATA/AK_1131391_S02_g0/AK_1131391_S02_g0_imec0/AK_1131391_S02_g0_t0.imec0.ap.meta'.
+[Thd 2888 CPU 5 8/10/23 17:32:26.030] 
+[Thd 4184 CPU 6 8/10/23 18:26:48.803] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1131391_S02 -g=1 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 4184 CPU 6 8/10/23 18:33:18.195] Done ap prb 0 t 0
+[Thd 4184 CPU 6 8/10/23 18:39:48.222] Done ap prb 1 t 0
+[Thd 4184 CPU 7 8/10/23 18:39:48.232] 
+[Thd 2564 CPU 0 8/12/23 17:30:49.321] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1131391_S03 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 2564 CPU 0 8/12/23 17:37:44.459] Done ap prb 0 t 0
+[Thd 2564 CPU 2 8/12/23 17:44:40.236] Done ap prb 1 t 0
+[Thd 2564 CPU 0 8/12/23 17:44:40.236] 
+[Thd 2688 CPU 0 8/13/23 17:52:07.282] Cmdline: CatGT -dir=D:/SGL_DATA -run=AK_1131391_S04 -g=0 -t=0,0 -prb_fld -prb=0:1 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -SY=1,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 2688 CPU 7 8/13/23 18:00:11.850] Done ap prb 0 t 0
+[Thd 2688 CPU 5 8/13/23 18:08:15.447] Done ap prb 1 t 0
+[Thd 2688 CPU 7 8/13/23 18:08:15.457] 
+[Thd 10680 CPU 2 8/29/23 13:47:46.405] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1126645_S01 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 10680 CPU 6 8/29/23 13:57:22.474] Done ap prb 0 t 0
+[Thd 10680 CPU 6 8/29/23 13:57:22.480] 
+[Thd 3632 CPU 6 8/30/23 11:17:54.506] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1126645_S02_v3 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 3632 CPU 0 8/30/23 11:26:02.147] Done ap prb 0 t 0
+[Thd 3632 CPU 6 8/30/23 11:26:02.147] 
+[Thd 3272 CPU 1 8/30/23 16:00:46.428] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1126645_S03 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 3272 CPU 1 8/30/23 16:09:37.814] Done ap prb 0 t 0
+[Thd 3272 CPU 2 8/30/23 16:09:37.814] 
+[Thd 4036 CPU 0 9/20/23 14:56:55.841] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1131346_S04_cMOs -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 4036 CPU 2 9/20/23 15:07:51.526] Done ap prb 0 t 0
+[Thd 4036 CPU 6 9/20/23 15:07:51.526] 
+[Thd 10116 CPU 7 9/20/23 18:00:54.294] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1131346_S03_aMOs -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 10116 CPU 2 9/20/23 18:12:03.156] Done ap prb 0 t 0
+[Thd 10116 CPU 1 9/20/23 18:12:03.158] 
+[Thd 1128 CPU 1 9/21/23 19:36:26.990] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1131346_S05_cMOs -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 1128 CPU 3 9/21/23 19:46:29.273] Done ap prb 0 t 0
+[Thd 1128 CPU 3 9/21/23 19:46:29.273] 
+[Thd 1304 CPU 6 9/22/23 14:10:00.498] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1131345_S01_aMOs -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 1304 CPU 6 9/22/23 14:20:15.383] Done ap prb 0 t 0
+[Thd 1304 CPU 7 9/22/23 14:20:15.403] 
+[Thd 5736 CPU 0 9/22/23 18:29:00.981] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1131345_S02_cMOs_v2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 5736 CPU 0 9/22/23 18:40:09.403] Done ap prb 0 t 0
+[Thd 5736 CPU 3 9/22/23 18:40:09.405] 
+[Thd 8152 CPU 6 9/23/23 21:20:15.493] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1131345_S03_aMOs_v2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 8152 CPU 6 9/23/23 21:30:54.320] Done ap prb 0 t 0
+[Thd 8152 CPU 6 9/23/23 21:30:54.330] 
+[Thd 6664 CPU 4 9/24/23 20:16:00.970] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1131346_S06_aMOs -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 6664 CPU 2 9/24/23 20:24:59.902] Done ap prb 0 t 0
+[Thd 6664 CPU 4 9/24/23 20:24:59.902] 
+[Thd 11568 CPU 4 9/25/23 17:45:33.457] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1131346_S07_aMOs -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 11568 CPU 4 9/25/23 17:56:53.300] Done ap prb 0 t 0
+[Thd 11568 CPU 5 9/25/23 17:56:53.305] 
+[Thd 4440 CPU 5 9/25/23 21:08:46.333] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1131345_S05_aMOs -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 4440 CPU 5 9/25/23 21:19:33.323] Done ap prb 0 t 0
+[Thd 4440 CPU 5 9/25/23 21:19:33.323] 
+[Thd 8540 CPU 4 9/27/23 12:02:02.100] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1131345_S04_cMOs_v3 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 8540 CPU 4 9/27/23 12:13:46.310] Done ap prb 0 t 0
+[Thd 8540 CPU 4 9/27/23 12:13:46.315] 
+[Thd 8256 CPU 1 9/27/23 14:35:44.010] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1131346_S08_cMOs -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 8256 CPU 6 9/27/23 14:46:08.131] Done ap prb 0 t 0
+[Thd 8256 CPU 2 9/27/23 14:46:08.138] 
+[Thd 8024 CPU 1 9/27/23 18:28:56.911] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1131346_S09_aMOs_v4 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 8024 CPU 2 9/27/23 18:40:21.139] Done ap prb 0 t 0
+[Thd 8024 CPU 1 9/27/23 18:40:21.197] 
+[Thd 5152 CPU 7 10/11/23 11:50:35.316] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1131345_S06_cMOs_v5 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 5152 CPU 7 10/11/23 11:59:25.536] Done ap prb 0 t 0
+[Thd 5152 CPU 7 10/11/23 11:59:25.554] 
+[Thd 4088 CPU 6 10/12/23 15:00:20.923] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1131345_S07_cMOs_v2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 4088 CPU 2 10/12/23 15:11:23.994] Done ap prb 0 t 0
+[Thd 4088 CPU 2 10/12/23 15:11:24.002] 
+[Thd 2600 CPU 3 2/01/24 15:41:01.301] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1134607_S01_V1 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 2600 CPU 0 2/01/24 15:53:37.386] Done ap prb 0 t 0
+[Thd 2600 CPU 6 2/01/24 15:53:37.386] 
+[Thd 12076 CPU 7 2/02/24 18:13:27.223] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1134607_S02_V1 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 12076 CPU 4 2/02/24 18:24:11.448] Done ap prb 0 t 0
+[Thd 12076 CPU 7 2/02/24 18:24:11.448] 
+[Thd 11012 CPU 5 2/09/24 15:06:35.028] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1134607_S06_aMOs -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 11012 CPU 6 2/09/24 15:16:48.100] Done ap prb 0 t 0
+[Thd 11012 CPU 5 2/09/24 15:16:48.100] 
+[Thd 8752 CPU 4 2/10/24 17:37:13.577] Cmdline: CatGT -dir=D:/SGL_DATA -run=ML_1134607_S07_aMOs -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 8752 CPU 6 2/10/24 17:47:23.853] Done ap prb 0 t 0
+[Thd 8752 CPU 6 2/10/24 17:47:23.855] 
+[Thd 4356 CPU 4 2/13/24 17:59:08.455] Cmdline: CatGT -dir=D:/SGL_DATA -run=TB_009_s1 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 4356 CPU 2 2/13/24 18:10:41.416] Done ap prb 0 t 0
+[Thd 4356 CPU 4 2/13/24 18:10:41.421] 
+[Thd 8784 CPU 3 2/14/24 17:31:45.495] Cmdline: CatGT -dir=D:/SGL_DATA -run=TB_009_s2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 8784 CPU 6 2/14/24 17:41:49.520] Done ap prb 0 t 0
+[Thd 8784 CPU 3 2/14/24 17:41:49.520] 
+[Thd 8904 CPU 0 2/15/24 17:35:59.096] Cmdline: CatGT -dir=D:/SGL_DATA -run=TB_009_s3 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 8904 CPU 1 2/15/24 17:45:24.487] Done ap prb 0 t 0
+[Thd 8904 CPU 2 2/15/24 17:45:24.495] 
+[Thd 4252 CPU 1 2/16/24 17:10:20.591] Cmdline: CatGT -dir=D:/SGL_DATA -run=TB_009_s4 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 4252 CPU 3 2/16/24 17:17:01.837] Write failed (error 2) for file 'TB_009_s4_g0_t0.imec0.ap.bin'.
+[Thd 4252 CPU 5 2/16/24 17:17:01.837] 
+[Thd 3304 CPU 2 2/27/24 18:09:53.727] Cmdline: CatGT -dir=D:/SGL_DATA -run=TB_010_s1 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 3304 CPU 6 2/27/24 18:19:26.379] Write failed (error 2) for file 'TB_010_s1_g0_t0.imec0.ap.bin'.
+[Thd 3304 CPU 6 2/27/24 18:19:26.379] 
+[Thd 8692 CPU 4 3/01/24 18:52:35.228] Cmdline: CatGT -dir=D:/SGL_DATA -run=TB_010_s2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 8692 CPU 6 3/01/24 19:06:52.913] Done ap prb 0 t 0
+[Thd 8692 CPU 6 3/01/24 19:06:52.921] 
+[Thd 1944 CPU 3 3/02/24 15:52:17.079] Cmdline: CatGT -dir=D:/SGL_DATA -run=TB_010_s3 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 1944 CPU 2 3/02/24 16:04:18.765] Done ap prb 0 t 0
+[Thd 1944 CPU 2 3/02/24 16:04:18.773] 
+[Thd 7772 CPU 5 3/03/24 17:49:26.511] Cmdline: CatGT -dir=D:/SGL_DATA -run=TB_010_s4 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 7772 CPU 7 3/03/24 18:09:36.021] Done ap prb 0 t 0
+[Thd 7772 CPU 5 3/03/24 18:09:36.021] 
+[Thd 1700 CPU 3 4/25/24 17:40:57.784] Cmdline: CatGT -dir=D:/SGL_DATA -run=TB_013_s1_v2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 1700 CPU 7 4/25/24 17:50:57.082] Done ap prb 0 t 0
+[Thd 1700 CPU 6 4/25/24 17:50:57.082] 
+[Thd 3576 CPU 6 4/26/24 19:53:18.517] Cmdline: CatGT -dir=D:/SGL_DATA -run=TB_013_s2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 3576 CPU 7 4/26/24 20:11:09.573] Done ap prb 0 t 0
+[Thd 3576 CPU 6 4/26/24 20:11:09.573] 
+[Thd 1732 CPU 7 4/28/24 15:17:56.768] Cmdline: CatGT -dir=D:/SGL_DATA -run=TB_013_s3 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 1732 CPU 7 4/28/24 15:28:01.718] Write failed (error 2) for file 'TB_013_s3_g0_t0.imec0.ap.bin'.
+[Thd 1732 CPU 7 4/28/24 15:28:01.721] 
+[Thd 2288 CPU 2 4/29/24 19:39:14.849] Cmdline: CatGT -dir=D:/SGL_DATA -run=TB_013_s4 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 2288 CPU 2 4/29/24 19:39:14.869] Write failed (error 2) for file 'TB_013_s4_g0_t0.imec0.ap.bin'.
+[Thd 2288 CPU 2 4/29/24 19:39:14.879] 
+[Thd 4252 CPU 5 5/09/24 17:54:36.051] Cmdline: CatGT -dir=D:/SGL_DATA -run=TB_012_s1 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 4252 CPU 0 5/09/24 18:06:45.623] Done ap prb 0 t 0
+[Thd 4252 CPU 1 5/09/24 18:06:45.623] 
+[Thd 6928 CPU 4 5/10/24 10:06:36.338] Cmdline: CatGT -dir=D:/SGL_DATA -run=TB_012_s2 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 6928 CPU 2 5/10/24 10:15:42.834] Done ap prb 0 t 0
+[Thd 6928 CPU 2 5/10/24 10:15:42.836] 
+[Thd 4140 CPU 2 5/10/24 11:31:26.132] Cmdline: CatGT -dir=D:/SGL_DATA -run=TB_013_s5 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 4140 CPU 2 5/10/24 11:31:26.132] Meta file not found 'D:/SGL_DATA/TB_013_s5_g0/TB_013_s5_g0_imec0/TB_013_s5_g0_t0.imec0.ap.meta'.
+[Thd 4140 CPU 2 5/10/24 11:31:26.132] 
+[Thd 9876 CPU 4 5/10/24 12:16:28.671] Cmdline: CatGT -dir=D:/SGL_DATA -run=TB_013_s4 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 9876 CPU 4 5/10/24 12:16:28.681] Meta file not found 'D:/SGL_DATA/TB_013_s4_g0/TB_013_s4_g0_imec0/TB_013_s4_g0_t0.imec0.ap.meta'.
+[Thd 9876 CPU 4 5/10/24 12:16:28.681] 
+[Thd 4376 CPU 6 5/10/24 15:50:13.397] Cmdline: CatGT -dir=D:/SGL_DATA -run=TB_013_s4 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 4376 CPU 6 5/10/24 15:50:13.398] Meta file not found 'D:/SGL_DATA/TB_013_s4_g0/TB_013_s4_g0_imec0/TB_013_s4_g0_t0.imec0.ap.meta'.
+[Thd 4376 CPU 6 5/10/24 15:50:13.398] 
+[Thd 8208 CPU 6 5/10/24 17:21:22.984] Cmdline: CatGT -dir=D:/SGL_DATA -run=TB_012_s3 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 8208 CPU 6 5/10/24 17:32:30.628] Done ap prb 0 t 0
+[Thd 8208 CPU 6 5/10/24 17:32:30.685] 
+[Thd 2188 CPU 0 5/11/24 15:27:09.304] Cmdline: CatGT -dir=D:/SGL_DATA -run=TB_012_s3 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 2188 CPU 0 5/11/24 15:27:09.305] Meta file not found 'D:/SGL_DATA/TB_012_s3_g0/TB_012_s3_g0_imec0/TB_012_s3_g0_t0.imec0.ap.meta'.
+[Thd 2188 CPU 0 5/11/24 15:27:09.305] 
+[Thd 3164 CPU 1 5/11/24 18:26:33.625] Cmdline: CatGT -dir=D:/SGL_DATA -run=TB_012_s4 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 3164 CPU 1 5/11/24 18:32:38.255] Write failed (error 2) for file 'TB_012_s4_g0_t0.imec0.ap.bin'.
+[Thd 3164 CPU 1 5/11/24 18:32:38.258] 
+[Thd 1876 CPU 6 5/12/24 13:55:38.141] Cmdline: CatGT -dir=D:/SGL_DATA -run=TB_013_s4 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 1876 CPU 6 5/12/24 13:55:38.142] Meta file not found 'D:/SGL_DATA/TB_013_s4_g0/TB_013_s4_g0_imec0/TB_013_s4_g0_t0.imec0.ap.meta'.
+[Thd 1876 CPU 6 5/12/24 13:55:38.142] 
+[Thd 972 CPU 1 5/12/24 14:41:05.981] Cmdline: CatGT -dir=D:/SGL_DATA -run=TB_013_s4 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 972 CPU 1 5/12/24 14:41:05.982] Meta file not found 'D:/SGL_DATA/TB_013_s4_g0/TB_013_s4_g0_imec0/TB_013_s4_g0_t0.imec0.ap.meta'.
+[Thd 972 CPU 1 5/12/24 14:41:05.982] 
+[Thd 3984 CPU 4 5/12/24 15:33:19.651] Cmdline: CatGT -dir=D:/SGL_DATA -run=TB_013_s5 -g=0 -t=0,0 -prb_fld -prb=0 -ap -aphipass=300 -aplopass=9000 -gbldmx -SY=0,384,6,500 -dest=E:/CGT_OUT -out_prb_fld
+[Thd 3984 CPU 4 5/12/24 15:33:19.652] Meta file not found 'D:/SGL_DATA/TB_013_s5_g0/TB_013_s5_g0_imec0/TB_013_s5_g0_t0.imec0.ap.meta'.
+[Thd 3984 CPU 4 5/12/24 15:33:19.652] 
