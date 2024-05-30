@@ -6,4 +6,5 @@ Code is written for acquisition with Point Grey (FLIR) Chameleon 3 cameras, but 
 Requirements:
 
     Matlab (>=2018b)
-    Cameras need to be recognized in Matlab Image Acquisition Toolbox. This could require intallation of model-specific drivers and matlab adaptors.
+    Cameras need to be recognized in Matlab Image Acquisition Toolbox. 
+    This could require intallation of model-specific drivers and matlab adaptors.
