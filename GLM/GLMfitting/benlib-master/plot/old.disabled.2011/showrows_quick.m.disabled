@@ -1,0 +1,33 @@
+function [h, toshow] =showrows(A,range,cmap,fixzero,independent)
+
+if ~exist('range','var')
+  mx = max(abs(A(:)));
+  range = [-mx mx];
+end
+if ~exist('cmap','var')
+  cmap = [];
+end
+if ~exist('fixzero','var')
+  fixzero = [];
+end
+if exist('independent','var')
+  if independent
+    range = [];
+  end
+end
+
+num = size(A,1);
+side= ceil(sqrt(num));
+sz  = sqrt(size(A,2));
+
+toshow = zeros(side*sz,side*sz);
+
+for ii = 1:num
+    x = mod(ii-1,side)*side+1;
+    y = floor((ii-1)/side)*side+1;
+    toshow(y:y+sz-1,x:x+sz-1) = reshape(A(ii,:),sz,sz);
+end
+
+h = show(toshow);
+
+

@@ -1,0 +1,20 @@
+
+load /auto/k5/willmore/matlab/stimgen/natrev/rand_patch_list
+
+oldpath = '/auto/fs2/willmore/images/';
+newpath = '/auto/data/images/';
+
+for ii = 1:length(pic_list)
+  tmp =   pic_list{ii};
+  if ~findstr(tmp,oldpath)
+    ['doesn''t start with ' oldpath ', dunno what to do']
+    return
+  end
+
+  therest = tmp(length(oldpath)+1:end);
+  pic_list{ii} = [newpath therest];
+  pic_list{ii}
+end
+
+save /auto/k5/willmore/matlab/stimgen/natrev/rand_patch_list pic_list ...
+    patch_list;

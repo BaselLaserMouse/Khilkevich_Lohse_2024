@@ -1,0 +1,2 @@
+function m = angleaverage(vectors)
+

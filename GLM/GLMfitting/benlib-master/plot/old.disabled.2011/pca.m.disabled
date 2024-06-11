@@ -1,0 +1,10 @@
+function [e,d] = pca(matrix)
+% function [e,d] = pca(matrix)
+% bw mar 2004
+% returns eigenvectors of the covariance matrix of the input matrix
+% which is pixels x samples in size.
+% e contains eigenvectors in columns
+% main diagonal of d contains eigenvalues
+
+cov = matrix*matrix';
+[e,d] = eig(cov);

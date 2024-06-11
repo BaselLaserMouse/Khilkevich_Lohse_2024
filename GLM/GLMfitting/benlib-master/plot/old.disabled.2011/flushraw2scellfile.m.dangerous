@@ -1,0 +1,63 @@
+% function [cellfileids]=flushraw2scellfile(rawids)
+%
+% (if not already done) convert to pype files to matlab-readable
+% format and translate entries from gDataRaw to sCellFile
+%
+% if the conversion has already been done, simply return the
+% cellfileids corresponding to the rawids and fmt specified.
+%
+% CREATED SVD 2/27/03
+%
+function [cellfileids]=flushraw2scellfile(rawids)
+
+dbopen;
+
+% stimulus imsm archive path may vary with the well.
+% after the end of a session, path should be updated to show archived locations of data.
+stimpathdata.reese{13}='/auto/data/archive/stimarchive/REESE13/imsm/';
+stimpathdata.reese{14}='/auto/data/archive/stimarchive/REESE14/imsm/';
+stimpathdata.reese{15}='/auto/data/archive/stimarchive/REESE15/imsm/';
+stimpathdata.reese{16}='/auto/c1/stimarchive/REESE16/imsm/';
+stimpathdata.reese{17}='/auto/c1/stimarchive/REESE17/imsm/';
+stimpathdata.mac{11}='/auto/data/archive/stimarchive/MAC11/imsm/';
+
+if ~exist('fmt','var'),
+   fmt='';
+end
+cellfileids=[];
+if length(fmt)>0,
+   fmtstr=[' AND (stimfilefmt="',fmt,'" OR isnull(stimfilefmt))'];
+else
+   fmtstr='';
+end
+
+if ~exist('rawids','var'),
+   disp('At the moment, rawids must be specified.');
+   return
+   RUNCLASSID=2;
+   sql=['SELECT gDataRaw.* from gDataRaw LEFT JOIN sCellFile',...
+        ' ON gDataRaw.id=sCellFile.rawid',...
+        ' WHERE isnull(sCellFile.rawid)',...
+        ' AND gDataRaw.runclassid=',num2str(RUNCLASSID),...
+        ' AND bad=0',...
+        fmtstr,...
+        ' ORDER BY gDataRaw.cellid,gDataRaw.id'];
+   rawdata=mysql(sql);
+   
+   rawids=cat(1,rawdata.id);
+   GENERALUPDATE=1;
+   keyboard
+else
+   srawid='(';
+   for ii=1:length(rawids),
+      srawid=[srawid,num2str(rawids(ii)),','];
+   end
+   srawid(end)=')';
+   fprintf('Deleting old sCellFile entries for rawid in %s!\n',srawid);
+   %yn=input('Continue(y/[n])??? ','s');
+   %if length(yn)==0 | ~strcmp(yn(1),'y'),
+   %   return;
+   %end
+   sql=['DELETE FROM sCellFile WHERE rawid in ',srawid];
+   mysql(sql);
+end

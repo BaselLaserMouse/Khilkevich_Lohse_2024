@@ -1,0 +1,48 @@
+function movie = bwt2actpower(movie, startidx, stopidx);
+
+% function movie=pixabs(movie, startidx, stopidx);
+% 
+% apr 28 2003 willmore
+% helper for cellxcnobdb
+% does a haar transform and takes the abs of it -- haar wavelet
+% power domain
+
+if ~exist('startidx','var')
+  startidx = 1;
+end
+
+if ~exist('stopidx','var')
+  stopidx = size(movie,3);
+end
+
+movie = movie(:,:,startidx:stopidx);
+numstim = size(movie,3);
+
+fprintf('Transforming movie: /10 ');
+numhashes = 0;
+
+sz = size(movie,1);
+numlevels = round(log2(sz)/log2(3));
+
+for ii = 1:numstim
+  tmp = bwt2(movie(:,:,ii));
+  for jj = 1:numlevels
+    mult = 3^jj;
+    st1 = 1/3*mult+1;
+    en1 = 2/3*mult;
+    st2 = en1+1;
+    tmp(st1:en1,1:mult) = sqrt(tmp(st1:en1,1:mult).^2 + tmp(st2:mult,1:mult).^2);
+    tmp(st2:mult,1:mult) = 0;
+    tmp(1:mult,st2:mult) = 0;
+  end
+  movie(:,:,ii) = tmp;
+  
+  if floor(ii/numstim*10)>numhashes
+    fprintf('#');
+    numhashes = numhashes + 1;
+  end
+end
+
+movie = abs(movie);
+
+fprintf('\n');

@@ -1,0 +1,35 @@
+sql='select gDataRaw.id, gDataRaw.task from gDataRaw left join gCellMaster on gDataRaw.masterid=gCellMaster.id where gDataRaw.addedby="willmore" and gCellMaster.animal="ziggy";'
+
+dbopen;
+m = mysql(sql);
+
+rawid = [];
+for ii = 1:length(m)
+  rawid(ii) = m(ii).id;
+end
+
+flushraw2scellfile(rawid);
+
+sql='select gDataRaw.id, gDataRaw.task from gDataRaw left join gCellMaster on gDataRaw.masterid=gCellMaster.id where gDataRaw.addedby="willmore" and gCellMaster.animal="eddie";'
+
+dbopen;
+m = mysql(sql);
+
+rawid = [];
+for ii = 1:length(m)
+  rawid(ii) = m(ii).id;
+end
+
+flushraw2scellfile(rawid);
+
+sql='select gDataRaw.id, gDataRaw.task from gDataRaw left join gCellMaster on gDataRaw.masterid=gCellMaster.id where gDataRaw.addedby="willmore" and gCellMaster.animal="reese";'
+
+dbopen;
+m = mysql(sql);
+
+rawid = [];
+for ii = 1:length(m)
+  rawid(ii) = m(ii).id;
+end
+
+flushraw2scellfile(rawid);

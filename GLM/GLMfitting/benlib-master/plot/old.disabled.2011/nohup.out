@@ -1,0 +1,3067 @@
+java.jlg.berkeley.edu
+Running matlab silently...
+  matlab command: printfigs
+  no output file specified, using stdout
+Warning: Unable to open display , MATLAB is starting without a display.
+  You will not be able to display graphics on the screen.
+Warning: 
+  MATLAB is starting without a display, using internal event queue.
+  You will not be able to display graphics on the screen.
+
+
+                              < M A T L A B >
+                  Copyright 1984-2005 The MathWorks, Inc.
+                   Version 7.1.0.183 (R14) Service Pack 3
+                              August 02, 2005
+
+ 
+  To get started, type one of these: helpwin, helpdesk, or demo.
+  For product information, visit www.mathworks.com.
+ 
+startup.m:
+Prepending P2MDIR (/auto/k2/pype2/../p2m) to path...
+Prepending david dirs (/auto/k2/share/matlab/david/...) to path...
+Prepending willmore dirs (~/matlab/*) to path...
+Appending prenger dirs (/auto/k1/prenger/matlab/...) to path...
+Appending wafting dirs (/auto/k2/share/matlab/wafting/...) to path...
+PWD: /auto/k5/willmore/projects/
+>> 10001.nrop.V1/e0002.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V1/
+
+
+leaf =
+
+e0002
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V1/e0003.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V1/
+
+
+leaf =
+
+e0003
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V1/e0004.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V1/
+
+
+leaf =
+
+e0004
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V1/e0005.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V1/
+
+
+leaf =
+
+e0005
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V1/e0006.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V1/
+
+
+leaf =
+
+e0006
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V1/e0007.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V1/
+
+
+leaf =
+
+e0007
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V1/e0008.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V1/
+
+
+leaf =
+
+e0008
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V1/e0012.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V1/
+
+
+leaf =
+
+e0012
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V1/e0038.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V1/
+
+
+leaf =
+
+e0038
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V1/e0098.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V1/
+
+
+leaf =
+
+e0098
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V1/r0148A.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V1/
+
+
+leaf =
+
+r0148A
+
+[1] Wrote 1 pages, 310372 bytes
+10001.nrop.V1/r0150B.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V1/
+
+
+leaf =
+
+r0150B
+
+[1] Wrote 1 pages, 310372 bytes
+10001.nrop.V1/r0154A.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V1/
+
+
+leaf =
+
+r0154A
+
+[1] Wrote 1 pages, 310372 bytes
+10001.nrop.V1/r0154B.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V1/
+
+
+leaf =
+
+r0154B
+
+[1] Wrote 1 pages, 310372 bytes
+10001.nrop.V1/r0156A.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V1/
+
+
+leaf =
+
+r0156A
+
+[1] Wrote 1 pages, 310372 bytes
+10001.nrop.V1/r0158A.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V1/
+
+
+leaf =
+
+r0158A
+
+[1] Wrote 1 pages, 310372 bytes
+10001.nrop.V1/r0162B.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V1/
+
+
+leaf =
+
+r0162B
+
+[1] Wrote 1 pages, 310372 bytes
+10001.nrop.V1/r0163B.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V1/
+
+
+leaf =
+
+r0163B
+
+[1] Wrote 1 pages, 310372 bytes
+10001.nrop.V1/r0164B.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V1/
+
+
+leaf =
+
+r0164B
+
+[1] Wrote 1 pages, 310372 bytes
+10001.nrop.V1/r0164C.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V1/
+
+
+leaf =
+
+r0164C
+
+[1] Wrote 1 pages, 310372 bytes
+10001.nrop.V1/r0166B.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V1/
+
+
+leaf =
+
+r0166B
+
+[1] Wrote 1 pages, 310372 bytes
+10001.nrop.V1/r0166C.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V1/
+
+
+leaf =
+
+r0166C
+
+[1] Wrote 1 pages, 310372 bytes
+10001.nrop.V1/r0168A.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V1/
+
+
+leaf =
+
+r0168A
+
+[1] Wrote 1 pages, 310372 bytes
+10001.nrop.V1/r0168B.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V1/
+
+
+leaf =
+
+r0168B
+
+[1] Wrote 1 pages, 310372 bytes
+10001.nrop.V1/r0169B.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V1/
+
+
+leaf =
+
+r0169B
+
+[1] Wrote 1 pages, 310372 bytes
+10001.nrop.V1/r0170A.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V1/
+
+
+leaf =
+
+r0170A
+
+[1] Wrote 1 pages, 310372 bytes
+10001.nrop.V1/r0206B.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V1/
+
+
+leaf =
+
+r0206B
+
+[1] Wrote 1 pages, 310372 bytes
+10001.nrop.V1/r0208D.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V1/
+
+
+leaf =
+
+r0208D
+
+[1] Wrote 1 pages, 310372 bytes
+10001.nrop.V1/r0210A.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V1/
+
+
+leaf =
+
+r0210A
+
+[1] Wrote 1 pages, 310372 bytes
+10001.nrop.V1/r0211A.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V1/
+
+
+leaf =
+
+r0211A
+
+[1] Wrote 1 pages, 310372 bytes
+10001.nrop.V1/r0212B.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V1/
+
+
+leaf =
+
+r0212B
+
+[1] Wrote 1 pages, 310372 bytes
+10001.nrop.V1/r0215B.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V1/
+
+
+leaf =
+
+r0215B
+
+[1] Wrote 1 pages, 310372 bytes
+10001.nrop.V1/r0217B.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V1/
+
+
+leaf =
+
+r0217B
+
+[1] Wrote 1 pages, 310372 bytes
+10001.nrop.V1/r0219B.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V1/
+
+
+leaf =
+
+r0219B
+
+[1] Wrote 1 pages, 310372 bytes
+10001.nrop.V1/r0220A.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V1/
+
+
+leaf =
+
+r0220A
+
+[1] Wrote 1 pages, 310372 bytes
+10001.nrop.V1/r0221A.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V1/
+
+
+leaf =
+
+r0221A
+
+[1] Wrote 1 pages, 310372 bytes
+10001.nrop.V1/r0223A.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V1/
+
+
+leaf =
+
+r0223A
+
+[1] Wrote 1 pages, 310372 bytes
+10001.nrop.V1/r0225C.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V1/
+
+
+leaf =
+
+r0225C
+
+[1] Wrote 1 pages, 310372 bytes
+10001.nrop.V1/r0229A.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V1/
+
+
+leaf =
+
+r0229A
+
+[1] Wrote 1 pages, 310372 bytes
+10001.nrop.V1/r0232A.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V1/
+
+
+leaf =
+
+r0232A
+
+[1] Wrote 1 pages, 310372 bytes
+10001.nrop.V1/r0238A.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V1/
+
+
+leaf =
+
+r0238A
+
+[1] Wrote 1 pages, 310372 bytes
+10001.nrop.V1/r0257.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V1/
+
+
+leaf =
+
+r0257
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V1/r0260.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V1/
+
+
+leaf =
+
+r0260
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V1/r0282.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V1/
+
+
+leaf =
+
+r0282
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V1/r0284.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V1/
+
+
+leaf =
+
+r0284
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V1/z0108.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V1/
+
+
+leaf =
+
+z0108
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0017.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0017
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0018.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0018
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0021.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0021
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0022.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0022
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0024.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0024
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0026.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0026
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0028.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0028
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0029.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0029
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0030.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0030
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0031.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0031
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0032.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0032
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0033.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0033
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0034.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0034
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0035.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0035
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0036.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0036
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0037.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0037
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0039.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0039
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0040.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0040
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0043.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0043
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0046.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0046
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0047.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0047
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0048.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0048
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0049.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0049
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0050.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0050
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0051.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0051
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0052.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0052
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0053.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0053
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0056.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0056
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0058.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0058
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0059.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0059
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0060.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0060
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0061.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0061
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0062.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0062
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0063.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0063
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0067.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0067
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0068.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0068
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0070.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0070
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0071.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0071
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0072.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0072
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0073.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0073
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0074.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0074
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0075.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0075
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0076.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0076
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0078.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0078
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0080.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0080
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0082.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0082
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0083.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0083
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0086.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0086
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0087.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0087
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0089.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0089
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0090.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0090
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0091.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0091
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0094.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0094
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0095.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0095
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0096.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0096
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0100.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0100
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0101.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0101
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0102.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0102
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0103.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0103
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0105.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0105
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0106.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0106
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0107.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0107
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0108.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0108
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0109.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0109
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0110.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0110
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0112.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0112
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0113.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0113
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0115.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0115
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0116.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0116
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0119.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0119
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0120.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0120
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0121.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0121
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0122.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0122
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0123.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0123
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0124.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0124
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0125.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0125
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0128.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0128
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0129.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0129
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0131.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0131
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/e0132.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+e0132
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/z0109.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+z0109
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/z0111.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+z0111
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/z0112.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+z0112
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/z0114.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+z0114
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/z0115.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+z0115
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/z0117.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+z0117
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/z0118.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+z0118
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/z0119.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+z0119
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/z0120.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+z0120
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/z0124.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+z0124
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/z0125.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+z0125
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/z0126.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+z0126
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/z0127.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+z0127
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/z0128.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+z0128
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/z0129.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+z0129
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V2/z0131.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V2/
+
+
+leaf =
+
+z0131
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0144.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0144
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0145.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0145
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0150.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0150
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0151p1.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0151p1
+
+[1] Wrote 1 pages, 310373 bytes
+10001.nrop.V4/e0152.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0152
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0153.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0153
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0157.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0157
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0158.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0158
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0161.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0161
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0162.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0162
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0163.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0163
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0164.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0164
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0167.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0167
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0170.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0170
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0171.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0171
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0172.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0172
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0173.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0173
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0174.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0174
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0175.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0175
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0176.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0176
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0177p1.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0177p1
+
+[1] Wrote 1 pages, 310373 bytes
+10001.nrop.V4/e0178.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0178
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0179.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0179
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0180.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0180
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0181.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0181
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0183.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0183
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0185.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0185
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0186.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0186
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0187.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0187
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0188.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0188
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0189.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0189
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0190.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0190
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0191.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0191
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0193.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0193
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0194.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0194
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0195.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0195
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0196.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0196
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0197.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0197
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0198.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0198
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0199.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0199
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0200.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0200
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0201.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0201
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0204.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0204
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0206.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0206
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0220.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0220
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0221.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0221
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0224.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0224
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0227.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0227
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0230.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0230
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0231.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0231
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0232.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0232
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0233.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0233
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0235.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0235
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0236.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0236
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0237.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0237
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0238.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0238
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0239.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0239
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0240.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0240
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0241.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0241
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0242.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0242
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/e0244.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+e0244
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/z0133.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+z0133
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/z0134.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+z0134
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/z0135.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+z0135
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/z0136.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+z0136
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/z0138.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+z0138
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/z0139.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+z0139
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/z0140.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+z0140
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/z0142.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+z0142
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/z0144.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+z0144
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/z0145.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+z0145
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/z0146.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+z0146
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/z0147.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+z0147
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/z0148.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+z0148
+
+[1] Wrote 1 pages, 310371 bytes
+10001.nrop.V4/z0151.mat
+Unit vectors; not removing DC
+Unit vectors; not removing DC
+
+root =
+
+10001.nrop.V4/
+
+
+leaf =
+
+z0151
+
+[1] Wrote 1 pages, 310371 bytes
+>> 
+ /tmp

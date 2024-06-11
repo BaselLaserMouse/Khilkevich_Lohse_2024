@@ -1,0 +1,33 @@
+function playsound(y,fs,bits,output)
+% function playsound(y,fs,bits,output)
+%  use mplayer to play a sound. this gets round the fact that
+%  the normal 'sound' function apparently fails to produce stereo
+%  sound on linux
+%  bw jan 2007
+
+if ~exist('fs','var') | fs==0 | isempty(fs)
+  fs = 8192;
+end
+
+if ~exist('bits','var') | bits==0 | isempty(bits)
+  bits = 16; % ignored for now
+end
+
+if ~exist('output','var') | bits==0 | isempty(bits)
+  output = 0;
+end
+
+if strfind(computer,'GLNX86')
+  rnd = floor(rand*65536);
+  tmpfile = sprintf('/tmp/matlab.sound.%d.tmp.wav',rnd);
+  wavwrite(y,fs,bits,tmpfile);
+  
+  cmdstr = sprintf('mplayer %s',tmpfile);
+  if ~output
+    cmdstr = [cmdstr ' 2&>/dev/null'];
+  end
+  unix(cmdstr);
+  unix(sprintf('rm %s',tmpfile));
+else
+  sound(y,fs,bits);
+end

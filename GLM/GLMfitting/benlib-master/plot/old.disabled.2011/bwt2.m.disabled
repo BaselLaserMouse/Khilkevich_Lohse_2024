@@ -1,0 +1,27 @@
+function z = bwt2(z)
+
+% bwt decomposition
+
+sz = size(z);
+if sz(1) ~= sz(2)
+  disp('Input must be square\n');
+  return;
+end
+
+sz = sz(1);
+
+numlevels = log(sz)/log(3);
+
+if (numlevels~=round(numlevels))
+  disp('Input side must be a power of 3');
+  return;
+end
+  
+resid = z;
+for ll = 1:numlevels
+  rtrans = bwt2_onelevel(resid);
+  z(1:size(rtrans,1),1:size(rtrans,2)) = rtrans/(3^ll);
+  resid = rtrans(1:size(rtrans,1)/3,1:size(rtrans,2)/3);
+end
+
+z(1:size(resid,1),1:size(resid,2)) = mean(resid(:));

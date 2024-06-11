@@ -1,0 +1,3 @@
+sql='select gDataRaw.id, gDataRaw.task from gDataRaw left join gCellMaster on gDataRaw.masterid=gCellMaster.id where gDataRaw.addedby="willmore" and gCellMaster.animal="ziggy";'
+
+m = mysql(sql);
